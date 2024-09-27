@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Image from "next/image";
 
 
 export default function HotelSearch() {
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     const [currency, setCurrency] = useState('UAH');
     const [hotels, setHotels] = useState([]);
@@ -33,41 +34,69 @@ export default function HotelSearch() {
     };
     // Загружаем данные из JSON файла при монтировании компонента
     useEffect(() => {
-        const fetchHotels = async () => {
+        const hasSearchParams = searchParams.has('country') || searchParams.has('city')
+            || searchParams.has('priceFrom') || searchParams.has('priceTo') || searchParams.has('adults')
+            || searchParams.has('children')|| searchParams.has('dateFrom')|| searchParams.has('dateTo')
+            || searchParams.has('nightsFrom')|| searchParams.has('nightsTo');
+
+        if (hasSearchParams) {
+            const fetchHotels = async () => {
+                const response = await fetch('/database/hotels.json');
+                const data = await response.json();
+                setHotels(data);
+            };
+
+            fetchHotels();
+        }
+    }, [searchParams]);
+
+
+    // Восстановление параметров и результатов при загрузке страницы
+    useEffect(() => {
+        // Проверяем наличие сохраненных данных
+        const savedSearchResults = localStorage.getItem('searchResults');
+        const savedSearchParams = localStorage.getItem('searchParams');
+
+        if (savedSearchResults && savedSearchParams && searchParams.toString()) {
+            setSearchResults(JSON.parse(savedSearchResults));
+
+            const params = JSON.parse(savedSearchParams);
+            setCountry(params.country || '');
+            setCity(params.city || '');
+            setPriceFrom(params.priceFrom || '');
+            setPriceTo(params.priceTo || '');
+            setAdults(params.adults || '');
+            setChildren(params.children || '');
+            setDateFrom(params.dateFrom || '');
+            setDateTo(params.dateTo || '');
+            setNightsFrom(params.nightsFrom || '');
+            setNightsTo(params.nightsTo || '');
+        }
+    }, [searchParams]);
+
+    const handleSearch = async () => {
+        if (hotels.length === 0) {
+            // Загружаем отели, если они еще не загружены
             const response = await fetch('/database/hotels.json');
             const data = await response.json();
             setHotels(data);
-        };
 
-        fetchHotels();
-    }, []);
+            // После загрузки данных выполняем фильтрацию
+            filterHotels(data);
+        } else {
+            // Если данные уже загружены, сразу выполняем фильтрацию
+            filterHotels(hotels);
+        }
+    };
 
-
-    // Обработка URL-параметров при монтировании компонента
-    useEffect(() => {
-        const queryParams = new URLSearchParams(window.location.search);
-
-        setCountry(queryParams.get('country') || '');
-        setCity(queryParams.get('city') || '');
-        setPriceFrom(queryParams.get('priceFrom') || '');
-        setPriceTo(queryParams.get('priceTo') || '');
-        setAdults(queryParams.get('adults') || '');
-        setChildren(queryParams.get('children') || '');
-        setDateFrom(queryParams.get('dateFrom') || '');
-        setDateTo(queryParams.get('dateTo') || '');
-        setNightsFrom(queryParams.get('nightsFrom') || '');
-        setNightsTo(queryParams.get('nightsTo') || '');
-    }, []);
-
-    const handleSearch = () => {
-        const filteredHotels = hotels.filter(hotel => {
+    const filterHotels = (hotelData) => {
+        const filteredHotels = hotelData.filter(hotel => {
             const departureDateFrom = dateFrom ? new Date(dateFrom) : null;
             const departureDateTo = dateTo ? new Date(dateTo) : null;
 
             const hotelDepartureDateFrom = new Date(hotel.dateFrom);
             const hotelDepartureDateTo = new Date(hotel.dateTo);
 
-            // Рассчитываем дату возвращения на основе ночей, если они указаны
             const hotelReturnDate = departureDateFrom ? new Date(departureDateFrom) : null;
             if (hotelReturnDate && nightsFrom) {
                 hotelReturnDate.setDate(hotelReturnDate.getDate() + Number(nightsFrom));
@@ -80,10 +109,8 @@ export default function HotelSearch() {
                 (priceTo ? hotel.price <= Number(priceTo) : true) &&
                 (adults ? hotel.adults === Number(adults) : true) &&
                 (children ? hotel.children === Number(children) : true) &&
-                // Проверяем диапазон даты вылета
                 (!departureDateFrom || hotelDepartureDateFrom <= departureDateFrom) &&
                 (!departureDateTo || hotelDepartureDateTo >= departureDateTo) &&
-                // Проверяем диапазон ночей
                 (!nightsFrom || hotelDepartureDateTo >= hotelReturnDate) &&
                 (!nightsTo || hotelDepartureDateFrom <= new Date(hotelDepartureDateFrom.getTime() + nightsTo * 86400000))
             );
@@ -91,6 +118,22 @@ export default function HotelSearch() {
 
         setSearchResults(filteredHotels);
 
+        // Сохраняем результаты поиска и параметры в localStorage
+        localStorage.setItem('searchResults', JSON.stringify(filteredHotels));
+        localStorage.setItem('searchParams', JSON.stringify({
+            country,
+            city,
+            priceFrom,
+            priceTo,
+            adults,
+            children,
+            dateFrom,
+            dateTo,
+            nightsFrom,
+            nightsTo,
+        }));
+
+        // Обновляем URL
         const queryParams = new URLSearchParams({
             country,
             city,
@@ -104,16 +147,13 @@ export default function HotelSearch() {
             nightsTo
         });
 
-        // Удаляем пустые параметры
         for (const [key, value] of queryParams.entries()) {
             if (!value) {
                 queryParams.delete(key);
             }
         }
 
-        // Обновляем URL текущей страницы с параметрами
         router.replace(`?${queryParams.toString()}`, { shallow: true });
-
     };
 
     return (
