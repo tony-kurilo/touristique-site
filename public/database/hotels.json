@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Hotel A",
+    "country": "Ukraine",
+    "city": "Kyiv",
+    "price": 15000,
+    "adults": 2,
+    "children": 0,
+    "dateFrom": "2024-09-01",
+    "dateTo": "2024-09-10",
+    "image": "/images/hotel-example.jpg",
+    "rating" : 5,
+    "id": 1
+  },
+  {
+    "name": "Hotel B",
+    "country": "Ukraine",
+    "city": "Lviv",
+    "price": 10000,
+    "adults": 1,
+    "children": 0,
+    "dateFrom": "2024-09-05",
+    "dateTo": "2024-09-15",
+    "image": "/images/hotel-example.jpg",
+    "rating" : 3,
+    "id": 2
+  }
+]
