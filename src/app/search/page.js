@@ -4,15 +4,15 @@ import SearchHotel from "../components/SearchHotel";
 export default function Page() {
     return(
         <body>
-        <div className="relative">
-            <Image src={"/images/search-background.png"} alt="Search" width={"1920"} height={"809"}
-                   className={"object-cover"}/>
-            <div className="absolute inset-0 bg-black opacity-30"></div>
-            <div
-                className="absolute top-96 left-100 transform -translate-x-1/2 -translate-y-1/2 text-white text-3xl z-20">
-                Заплануйте Вашу подорож зараз !
+            <div className="relative">
+                <Image src={"/images/search-background.png"} alt="Search" width={"1920"} height={"809"}
+                       className={"object-cover"}/>
+                <div className="absolute inset-0 bg-black opacity-30"></div>
+                <div
+                    className="absolute top-96 left-100 transform -translate-x-1/2 -translate-y-1/2 text-white text-3xl z-20">
+                    Заплануйте Вашу подорож зараз !
+                </div>
             </div>
-        </div>
         <header className="absolute top-0 left-0 w-full bg-opacity-10 z-10">
             <nav className="flex items-center justify-between">
                 <div className="flex items-center m-10 px-6">

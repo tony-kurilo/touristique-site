@@ -1,1 +1,25 @@
--- Patch "" --
+                              ## Commit "Main Page:done(styles to update)" ##
+Things done :
+ - layout
+ - search system
+Problems are to solve :
+ - url system
+ - pagination
+ - redirect to Hotel page
+ - add to basket functionality (Zustand)
+
+                                    ## Commit "URL system done" ##
+Things done :
+ - url system
+Problems are to solve :
+ - pagination
+ - redirect to Hotel page
+ - add to basket functionality (Zustand)
+
+                                   ## Commit "pagination system done" ##
+Things done :
+ - pagination system
+Problems are to solve :
+ - *pagination - loading logic because if the json file exceeds 2.56 MB then an error occurs due to memory overrun
+ - redirect to Hotel page
+ - add to basket functionality (Zustand)

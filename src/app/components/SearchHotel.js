@@ -23,6 +23,9 @@ export default function HotelSearch() {
     const [nightsTo, setNightsTo] = useState('');
     const [searchResults, setSearchResults] = useState([]);
 
+    const [visibleHotels, setVisibleHotels] = useState(8); // Количество отелей, которые отображаются
+    const [loading, setLoading] = useState(false);
+
     const currencyRates = {
         UAH: 1,
         USD: 0.027,
@@ -54,11 +57,14 @@ export default function HotelSearch() {
     // Восстановление параметров и результатов при загрузке страницы
     useEffect(() => {
         // Проверяем наличие сохраненных данных
+        const savedSearchPageUrl = localStorage.getItem('searchPageUrl');
+        const savedVisibleHotels = localStorage.getItem('visibleHotels');
         const savedSearchResults = localStorage.getItem('searchResults');
         const savedSearchParams = localStorage.getItem('searchParams');
 
-        if (savedSearchResults && savedSearchParams && searchParams.toString()) {
+        if (savedSearchPageUrl && savedSearchResults && savedSearchParams && searchParams.toString()) {
             setSearchResults(JSON.parse(savedSearchResults));
+            setVisibleHotels(Number(savedVisibleHotels) || 8);
 
             const params = JSON.parse(savedSearchParams);
             setCountry(params.country || '');
@@ -75,12 +81,15 @@ export default function HotelSearch() {
     }, [searchParams]);
 
     const handleSearch = async () => {
+        localStorage.removeItem('searchPageUrl'); // Очищаем URL поиска
+        localStorage.removeItem('visibleHotels'); // Очищаем количество отелей
+        localStorage.removeItem('searchResults'); // Очищаем результаты поиска
+
         if (hotels.length === 0) {
             // Загружаем отели, если они еще не загружены
             const response = await fetch('/database/hotels.json');
             const data = await response.json();
             setHotels(data);
-
             // После загрузки данных выполняем фильтрацию
             filterHotels(data);
         } else {
@@ -117,6 +126,7 @@ export default function HotelSearch() {
         });
 
         setSearchResults(filteredHotels);
+        setVisibleHotels(8);
 
         // Сохраняем результаты поиска и параметры в localStorage
         localStorage.setItem('searchResults', JSON.stringify(filteredHotels));
@@ -154,6 +164,24 @@ export default function HotelSearch() {
         }
 
         router.replace(`?${queryParams.toString()}`, { shallow: true });
+    };
+
+    // Функция перенаправления на страницу отеля
+    const handleRedirect = (hotelId) => {
+        const currentUrl = window.location.href; // Получаем текущий URL
+        localStorage.setItem('searchPageUrl', currentUrl); // Сохраняем URL в localStorage
+        localStorage.setItem('visibleHotels', visibleHotels); // Сохраняем количество видимых отелей
+        localStorage.setItem('searchResults', JSON.stringify(searchResults)); // Сохраняем результаты поиска
+        router.push(`/hotels/${hotelId}`); // Перенаправляем на страницу отеля
+    };
+
+    // Функция загрузки дополнительных отелей
+    const loadMoreHotels = () => {
+        setLoading(true);
+        setTimeout(() => {
+            setVisibleHotels(prevVisible => prevVisible + 8); // Увеличиваем количество отображаемых отелей
+            setLoading(false);
+        }, 1000); // Имитация задержки для демонстрации загрузки
     };
 
     return (
@@ -274,9 +302,8 @@ export default function HotelSearch() {
                 <button onClick={handleSearch} id={"submitButton"}>Пошук</button>
             </div>
             <div className="mt-8">
-                {searchResults.length > 0 ? (
-                    searchResults.map((hotel, index) => (
-                        <div key={index} className=" p-4 m-2 flex items-center">
+                {searchResults.slice(0, visibleHotels).map((hotel, index) => (
+                        <div key={index} className=" p-4 m-2 flex items-center" onClick={() => handleRedirect(hotel.id)}>
                             <div className={"mr-10"}>
                                 <Image src={hotel.image} width={"510"} height={"333"}></Image>
                             </div>
@@ -296,12 +323,13 @@ export default function HotelSearch() {
                                 <button id={"submitButton"}>Додати</button>
                             </div>
                         </div>
-                    ))
-                ) : (
-                    <p></p>
-                )}
-
+                ))}
             </div>
-        </div>
+            {visibleHotels < searchResults.length && (
+                <button onClick={loadMoreHotels} className="mt-4" disabled={loading}>
+                    {loading ? "Завантаження..." : "Завантажити ще"}
+                </button>
+            )}
+                </div>
     );
 }
