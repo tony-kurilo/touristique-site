@@ -172,7 +172,7 @@ export default function HotelSearch() {
         localStorage.setItem('searchPageUrl', currentUrl); // Сохраняем URL в localStorage
         localStorage.setItem('visibleHotels', visibleHotels); // Сохраняем количество видимых отелей
         localStorage.setItem('searchResults', JSON.stringify(searchResults)); // Сохраняем результаты поиска
-        router.push(`/hotels/${hotelId}`); // Перенаправляем на страницу отеля
+        router.push(`/hotel/${hotelId}`); // Перенаправляем на страницу отеля
     };
 
     // Функция загрузки дополнительных отелей
@@ -223,6 +223,7 @@ export default function HotelSearch() {
                         <p className={"mr-4 w-20 text-right leading-tight break-words"}>ночей від</p>
                         <input
                             type={"number"}
+                            placeholder={"0"}
                             value={nightsFrom}
                             onChange={(e) => setNightsFrom(e.target.value)}
                             id={"NightsFromInput"}
@@ -235,6 +236,7 @@ export default function HotelSearch() {
                         <input
                             type={"number"}
                             value={adults}
+                            placeholder={"0"}
                             onChange={(e) => setAdults(e.target.value)}
                             id={"AdultsInput"}
                         />
@@ -244,6 +246,7 @@ export default function HotelSearch() {
                         <input
                             type={"number"}
                             value={priceFrom}
+                            placeholder={"0"}
                             onChange={(e) => setPriceFrom(e.target.value)}
                             id={"PriceFromInput"}
                         />
@@ -277,6 +280,7 @@ export default function HotelSearch() {
                         <input
                             type={"number"}
                             value={children}
+                            placeholder={"0"}
                             onChange={(e) => setChildren(e.target.value)}
                             id={"childrenInput"}
                         />
@@ -303,20 +307,19 @@ export default function HotelSearch() {
             </div>
             <div className="mt-8">
                 {searchResults.slice(0, visibleHotels).map((hotel, index) => (
-                        <div key={index} className=" p-4 m-2 flex items-center" onClick={() => handleRedirect(hotel.id)}>
+                        <div key={index} className=" p-4 mt-2 mb-7 flex items-center border rounded-md  shadow-md" id={"hotelDiv"} onClick={() => handleRedirect(hotel.id)}>
                             <div className={"mr-10"}>
-                                <Image src={hotel.image} width={"510"} height={"333"}></Image>
+                                <Image src={hotel.image} width={"510"} height={"333"} className={"border rounded"}></Image>
                             </div>
                             <div className={""}>
-                                <h2 className={"text-3xl"}>{hotel.name}</h2>
-                                <p className={"mb-8"}>Оцінка</p>
+                                <h2 className={"text-3xl mb-1"}>{hotel.name}</h2>
+                                <p className={"mb-10"}>Оцінка</p>
                                 <p className={"text-xl mb-2"}>Адреса</p>
-                                <p className={"text-xl"}>Виліт від: {hotel.dateFrom}</p>
-                                <p className={"text-xl"}>Ночей: 4 </p>
+                                <p className={"text-xl mb-2"}>Виліт від: {hotel.dateFrom}</p>
+                                <p className={"text-xl mb-2"}>Ночей: 4 </p>
                                 <p className={"text-xl mb-2"}>Тур закінчується: 2024-09-05 </p>
-                                <p className={"text-xl"}>Тип номеру: двомісний</p>
+                                <p className={"text-xl mb-2"}>Тип номеру: двомісний</p>
                                 <p className={"text-xl mb-2"}>Тип харчування: all-inclusive</p>
-                                <p className={"text-xl"}>Відправка з: <br/> місто АЛлалал, аеропорт ТАІА </p>
                             </div>
                             <div className={"ml-72 mr-2 relative"}>
                                 <p className={"text-xl mb-64"}>{convertPrice(hotel.price, currency)} {currency}</p>
@@ -326,7 +329,7 @@ export default function HotelSearch() {
                 ))}
             </div>
             {visibleHotels < searchResults.length && (
-                <button onClick={loadMoreHotels} className="mt-4" disabled={loading}>
+                <button onClick={loadMoreHotels} className="mt-4" disabled={loading} id={"loadingButton"}>
                     {loading ? "Завантаження..." : "Завантажити ще"}
                 </button>
             )}

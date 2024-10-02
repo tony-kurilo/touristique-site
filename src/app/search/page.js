@@ -21,10 +21,10 @@ export default function Page() {
                     </a>
                 </div>
                 <div className="flex items-center">
-                    <a className={"m-4 pb-4 text-xl text-outline"} href={""}>Пункти призначення</a>
-                    <a className={"m-4 pb-4 text-xl text-outline"} href={"#"}>Блог</a>
-                    <a className={"m-4 pb-4 text-xl text-outline"} href={"#"}>Про нас</a>
-                    <a className={"m-4 pb-4 text-xl text-outline"} href={"#"}>Зв'яжіться з нами</a>
+                    <a className={"m-4 p-1.5 text-xl text-outline "} href={""} id={"navButton"}>Пункти призначення</a>
+                    <a className={"m-4 p-1.5 text-xl text-outline"} href={"#"} id={"navButton"}>Блог</a>
+                    <a className={"m-4 p-1.5 text-xl text-outline"} href={"#"} id={"navButton"}>Про нас</a>
+                    <a className={"m-4 p-1.5 text-xl text-outline"} href={"#"} id={"navButton"}>Зв'яжіться з нами</a>
                 </div>
                 <div className="flex items-center m-10 pr-10">
                     <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist icon"} width={"33"}
