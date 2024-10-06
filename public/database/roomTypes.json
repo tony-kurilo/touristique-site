@@ -1,0 +1,72 @@
+{
+  "roomData": [
+    {
+      "value": "room1",
+      "label": "Standard Room",
+      "square": "30",
+      "maxGuests": 2,
+      "amenities": {
+        "wifi": true,
+        "shower": true,
+        "refrigerator": true,
+        "airConditioning": true,
+        "terrace": false,
+        "heating": true,
+        "tv": true,
+        "phone": true,
+        "minibar": false
+      }
+    },
+    {
+      "value": "room2",
+      "label": "Premium Room",
+      "square": "40",
+      "maxGuests": 3,
+      "amenities": {
+        "wifi": true,
+        "shower": true,
+        "refrigerator": true,
+        "airConditioning": true,
+        "terrace": false,
+        "heating": true,
+        "tv": true,
+        "phone": true,
+        "minibar": true
+      }
+    },
+    {
+      "value": "room3",
+      "label": "Suite",
+      "square": "45",
+      "maxGuests": 4,
+      "amenities": {
+        "wifi": true,
+        "shower": true,
+        "refrigerator": true,
+        "airConditioning": true,
+        "terrace": false,
+        "heating": true,
+        "tv": true,
+        "phone": true,
+        "minibar": true
+      }
+    },
+    {
+      "value": "room4",
+      "label": "Presidential Suite",
+      "square": "50",
+      "maxGuests": 2,
+      "amenities": {
+        "wifi": true,
+        "shower": true,
+        "refrigerator": true,
+        "airConditioning": true,
+        "terrace": false,
+        "heating": true,
+        "tv": true,
+        "phone": true,
+        "minibar": true
+      }
+    }
+  ]
+}

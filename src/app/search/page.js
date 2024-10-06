@@ -36,9 +36,6 @@ export default function Page() {
         </header>
         <main className={""}>
             <SearchHotel/>
-            <div>
-
-            </div>
         </main>
         </body>
     );

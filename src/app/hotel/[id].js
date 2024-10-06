@@ -1,6 +1,6 @@
 
 export async function getServerSideProps({ params }){
-    const hotels = await import('/database/hotels.json');
+    const hotels = await import('src/app/hotel/hotels.json');
     // Находим отель по id
     const hotel = hotels.find(h => h.id === params.id);
     console.log(hotels);

@@ -11,7 +11,7 @@ const MapComponent = () => {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="rounded-lg" // Добавляем стиль, если нужно
+                className="rounded-lg shadow-lg" // Добавляем стиль, если нужно
             ></iframe>
         </div>
     );

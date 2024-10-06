@@ -1,0 +1,73 @@
+{
+  "rooms": [
+    {
+      "roomId": "1",
+      "hotelId": "1",
+      "type": "Standard",
+      "roomSize": 25,
+      "maxOccupancy": 2,
+      "childrenAllowed": true,
+      "maxChildren": 1,
+      "amenities": {
+        "wifi": true,
+        "shower": true,
+        "refrigerator": true,
+        "airConditioning": true,
+        "terrace": false,
+        "heating": true,
+        "tv": true,
+        "phone": true,
+        "minibar": false
+      },
+      "pricePerNight": 120,
+      "availableFrom": "2024-10-05"
+    },
+    {
+      "roomId": "2",
+      "hotelId": "1",
+      "type": "Deluxe",
+      "roomSize": 35,
+      "maxOccupancy": 4,
+      "childrenAllowed": true,
+      "maxChildren": 2,
+      "amenities": {
+        "wifi": true,
+        "shower": true,
+        "refrigerator": true,
+        "airConditioning": true,
+        "terrace": true,
+        "heating": true,
+        "tv": true,
+        "phone": true,
+        "minibar": true,
+        "jacuzzi": false
+      },
+      "pricePerNight": 200,
+      "availableFrom": "2024-10-10"
+    },
+    {
+      "roomId": "3",
+      "hotelId": "1",
+      "type": "Suite",
+      "roomSize": 50,
+      "maxOccupancy": 5,
+      "childrenAllowed": true,
+      "maxChildren": 3,
+      "amenities": {
+        "wifi": true,
+        "shower": true,
+        "bathtub": true,
+        "refrigerator": true,
+        "airConditioning": true,
+        "terrace": true,
+        "heating": true,
+        "tv": true,
+        "phone": true,
+        "minibar": true,
+        "jacuzzi": true
+      },
+      "pricePerNight": 350,
+      "availableFrom": "2024-11-01"
+    }
+  ]
+}
