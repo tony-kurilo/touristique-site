@@ -1,13 +1,17 @@
 {
   "rooms": [
     {
-      "roomId": "1",
-      "hotelId": "1",
-      "type": "Standard",
+      "id": 1,
+      "hotelId": 1,
+      "type": "Standard Room",
       "roomSize": 25,
       "maxOccupancy": 2,
       "childrenAllowed": true,
       "maxChildren": 1,
+      "photos": [
+        "/images/microchel1.png",
+        "/images/microchel2.png"
+      ],
       "amenities": {
         "wifi": true,
         "shower": true,
@@ -23,13 +27,17 @@
       "availableFrom": "2024-10-05"
     },
     {
-      "roomId": "2",
-      "hotelId": "1",
-      "type": "Deluxe",
+      "id": 2,
+      "hotelId": 1,
+      "type": "Premium Room",
       "roomSize": 35,
       "maxOccupancy": 4,
       "childrenAllowed": true,
       "maxChildren": 2,
+      "photos": [
+         "/images/elephants.png",
+         "/images/house4.png"
+      ],
       "amenities": {
         "wifi": true,
         "shower": true,
@@ -46,13 +54,17 @@
       "availableFrom": "2024-10-10"
     },
     {
-      "roomId": "3",
-      "hotelId": "1",
+      "id": 3,
+      "hotelId": 1,
       "type": "Suite",
       "roomSize": 50,
       "maxOccupancy": 5,
       "childrenAllowed": true,
       "maxChildren": 3,
+      "photos": [
+        "/images/house3.png",
+        "/images/house2.png"
+      ],
       "amenities": {
         "wifi": true,
         "shower": true,

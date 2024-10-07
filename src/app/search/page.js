@@ -1,3 +1,4 @@
+import React, { Suspense } from 'react';
 import Image from "next/image";
 import SearchHotel from "../components/SearchHotel";
 
@@ -24,7 +25,7 @@ export default function Page() {
                     <a className={"m-4 p-1.5 text-xl text-outline "} href={""} id={"navButton"}>Пункти призначення</a>
                     <a className={"m-4 p-1.5 text-xl text-outline"} href={"#"} id={"navButton"}>Блог</a>
                     <a className={"m-4 p-1.5 text-xl text-outline"} href={"#"} id={"navButton"}>Про нас</a>
-                    <a className={"m-4 p-1.5 text-xl text-outline"} href={"#"} id={"navButton"}>Зв'яжіться з нами</a>
+                    <a className={"m-4 p-1.5 text-xl text-outline"} href={"#"} id={"navButton"}>Зв&apos;яжіться з нами</a>
                 </div>
                 <div className="flex items-center m-10 pr-10">
                     <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist icon"} width={"33"}
@@ -35,7 +36,9 @@ export default function Page() {
             </nav>
         </header>
         <main className={""}>
-            <SearchHotel/>
+            <Suspense fallback={<div>Loading...</div>}>
+                <SearchHotel/>
+            </Suspense>
         </main>
         </body>
     );

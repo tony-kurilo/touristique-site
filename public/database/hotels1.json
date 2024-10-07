@@ -13,10 +13,12 @@
       "roomCount": 120,
       "checkIn": "14:00",
       "checkOut": "12:00",
-      "location": {
-        "latitude": 27.98785,
-        "longitude": -82.46585
-      },
+      "photos": [
+        "/images/hotel-example.jpg",
+        "/images/house1.png"
+      ],
+      "latitude": 50.44591009830542,
+      "longitude": 30.537978094832255,
       "infrastructure":{
         "Пляж": {
           "isAvailable": true,

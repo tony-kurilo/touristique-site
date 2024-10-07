@@ -307,23 +307,24 @@ export default function HotelSearch() {
             </div>
             <div className="mt-8">
                 {searchResults.slice(0, visibleHotels).map((hotel, index) => (
-                        <div key={index} className=" p-4 mt-2 mb-7 flex items-center border rounded-md  shadow-md" id={"hotelDiv"} onClick={() => handleRedirect(hotel.id)}>
+                        <div key={index} className=" p-4 mt-2 mb-7 flex items-center border rounded-md cursor-pointer shadow-md" id={"hotelDiv"}
+                             onClick={() => handleRedirect(parseInt(hotel.id))}>
                             <div className={"mr-10"}>
-                                <Image src={hotel.image} width={"510"} height={"333"} className={"border rounded"}></Image>
+                                <Image src={hotel.image} width={"510"} height={"333"} className={"border rounded cursor-pointer"}></Image>
                             </div>
                             <div className={""}>
-                                <h2 className={"text-3xl mb-1"}>{hotel.name}</h2>
-                                <p className={"mb-10"}>Оцінка</p>
-                                <p className={"text-xl mb-2"}>Адреса</p>
-                                <p className={"text-xl mb-2"}>Виліт від: {hotel.dateFrom}</p>
-                                <p className={"text-xl mb-2"}>Ночей: 4 </p>
-                                <p className={"text-xl mb-2"}>Тур закінчується: 2024-09-05 </p>
-                                <p className={"text-xl mb-2"}>Тип номеру: двомісний</p>
-                                <p className={"text-xl mb-2"}>Тип харчування: all-inclusive</p>
+                                <h2 className={"text-3xl mb-1"} onClick={(e) => e.stopPropagation()}>{hotel.name}</h2>
+                                <p className={"mb-10"} onClick={(e) => e.stopPropagation()}>Оцінка</p>
+                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Адреса</p>
+                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Виліт від: {hotel.dateFrom}</p>
+                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Ночей: 4 </p>
+                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Тур закінчується: 2024-09-05 </p>
+                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Тип номеру: двомісний</p>
+                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Тип харчування: all-inclusive</p>
                             </div>
                             <div className={"ml-72 mr-2 relative"}>
-                                <p className={"text-xl mb-64"}>{convertPrice(hotel.price, currency)} {currency}</p>
-                                <button id={"submitButton"}>Додати</button>
+                                <p className={"text-xl mb-64"} onClick={(e) => e.stopPropagation()}>{convertPrice(hotel.price, currency)} {currency}</p>
+                                <button id={"submitButton"} onClick={(e) => e.stopPropagation()}>Додати</button>
                             </div>
                         </div>
                 ))}

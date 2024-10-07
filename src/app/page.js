@@ -16,7 +16,7 @@ export default function Home() {
                     <a className={"m-4 pb-1 text-xl text-outline"} href={"/search"}>Пункти призначення</a>
                     <a className={"m-4 pb-1 text-xl text-outline"} href={"#"}>Блог</a>
                     <a className={"m-4 pb-1 text-xl text-outline"} href={"#"}>Про нас</a>
-                    <a className={"m-4 pb-1 text-xl text-outline"} href={"#"}>Зв'яжіться з нами</a>
+                    <a className={"m-4 pb-1 text-xl text-outline"} href={"#"}>Зв&apos;яжіться з нами</a>
                 </div>
                 <div className="flex items-center m-10 pr-10">
                     <a href="/basket">
@@ -84,33 +84,33 @@ export default function Home() {
                         className={"ml-1 w-[507px] h-[527px] border border-gray-300 shadow-2xl "}> {/* Задайте фиксированную ширину */}
                         <Image src={"/images/castle.png"} width={"507"} height={"338"}/>
                         <p className={"w-full h-[189px] overflow-hidden text-ellipsis mt-4 ml-4 pb-10 pr-4 whitespace-normal"}>
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                            &quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                             ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
                             laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
                             voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot;
                         </p>
                     </div>
                     <div
                         className={"ml-10 mr-10 w-[507px] h-[527px] border border-gray-300 shadow-2xl"}> {/* Задайте фиксированную ширину */}
                         <Image src={"/images/castle.png"} width={"507"} height={"338"}/>
                         <p className={"w-full h-[189px] pt-4 pl-4 pr-4 text-xl overflow-hidden text-ellipsis whitespace-normal "}>
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                            &quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                             ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
                             laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
                             voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot;
                         </p>
                     </div>
                     <div
                         className={"mr-1 w-[507px] h-[527px] border border-gray-300 shadow-2xl "}> {/* Задайте фиксированную ширину */}
                         <Image src={"/images/castle.png"} width={"507"} height={"338"}/>
                         <p className={"w-full h-[189px] overflow-hidden text-ellipsis mt-4 ml-4 pb-10 pr-4 whitespace-normal"}>
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                            &quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                             ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
                             laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
                             voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot;
                         </p>
                     </div>
                 </div>
