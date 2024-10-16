@@ -14,9 +14,9 @@ export default function Home() {
                 </div>
                 <div className="flex items-center">
                     <a className={"m-4 pb-1 text-xl text-outline"} href={"/search"}>Пункти призначення</a>
-                    <a className={"m-4 pb-1 text-xl text-outline"} href={"#"}>Блог</a>
-                    <a className={"m-4 pb-1 text-xl text-outline"} href={"#"}>Про нас</a>
-                    <a className={"m-4 pb-1 text-xl text-outline"} href={"#"}>Зв&apos;яжіться з нами</a>
+                    <a className={"m-4 pb-1 text-xl text-outline"} href={"/blog"}>Блог</a>
+                    <a className={"m-4 pb-1 text-xl text-outline"} href={"/about-us"}>Про нас</a>
+                    <a className={"m-4 pb-1 text-xl text-outline"} href={"/contact-us"}>Зв&apos;яжіться з нами</a>
                 </div>
                 <div className="flex items-center m-10 pr-10">
                     <a href="/basket">

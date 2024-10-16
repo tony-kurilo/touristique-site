@@ -26,6 +26,8 @@ export default function HotelSearch() {
     const [visibleHotels, setVisibleHotels] = useState(8); // Количество отелей, которые отображаются
     const [loading, setLoading] = useState(false);
 
+    const [roomType, setRoomType] = useState('Стандарт');
+
     const currencyRates = {
         UAH: 1,
         USD: 0.027,
@@ -35,6 +37,7 @@ export default function HotelSearch() {
     const convertPrice = (price, currency) => {
         return Math.round(price * currencyRates[currency]);
     };
+
     // Загружаем данные из JSON файла при монтировании компонента
     useEffect(() => {
         const hasSearchParams = searchParams.has('country') || searchParams.has('city')
@@ -87,11 +90,11 @@ export default function HotelSearch() {
 
         if (hotels.length === 0) {
             // Загружаем отели, если они еще не загружены
-            const response = await fetch('/database/hotels.json');
-            const data = await response.json();
-            setHotels(data);
+            const hotelResponse = await fetch('/database/hotels.json');
+            const hotelData = await hotelResponse.json();
+            setHotels(hotelData);
             // После загрузки данных выполняем фильтрацию
-            filterHotels(data);
+            filterHotels(hotelData);
         } else {
             // Если данные уже загружены, сразу выполняем фильтрацию
             filterHotels(hotels);
@@ -110,7 +113,6 @@ export default function HotelSearch() {
             if (hotelReturnDate && nightsFrom) {
                 hotelReturnDate.setDate(hotelReturnDate.getDate() + Number(nightsFrom));
             }
-
             return (
                 (country ? hotel.country.toLowerCase() === country.toLowerCase() : true) &&
                 (city ? hotel.city.toLowerCase() === city.toLowerCase() : true) &&
@@ -297,8 +299,25 @@ export default function HotelSearch() {
                 </div>
             </div>
             <div className={"flex items-center mt-10"}>
+                <p className={"mr-4  text-right leading-tight break-words"}>Клас кімнати</p>
+                <select
+                    id={"currency"}
+                    className={"mr-10"}
+                    value={roomType}
+                    onChange={(e) => setRoomType(e.target.value)}>
+                    <option value={"Standard Room"}>Стандарт</option>
+                    <option value={"Premium Room"}>Комфорт</option>
+                    <option value={"Honeymoon Suite"}>Номер для наречених</option>
+                    <option value={"Family Room"}>Сімейний номер</option>
+                    <option value={"Suite"}>Люкс</option>
+                    <option value={"Super Suite"}>Президентський Люкс</option>
+                </select>
                 <p className={"mr-4 w-20 text-right leading-tight break-words"}>Валюта</p>
-                <select name="currency" className={"mr-24"} id={"currency"} value={currency} onChange={(e) => setCurrency(e.target.value)}>
+                <select name="currency"
+                        className={"mr-24"}
+                        id={"currency"}
+                        value={currency}
+                        onChange={(e) => setCurrency(e.target.value)}>
                     <option value="UAH">UAH</option>
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
@@ -306,7 +325,7 @@ export default function HotelSearch() {
                 <button onClick={handleSearch} id={"submitButton"}>Пошук</button>
             </div>
             <div className="mt-8">
-                {searchResults.slice(0, visibleHotels).map((hotel, index) => (
+                {searchResults.slice(0, visibleHotels).map((hotel, index)  => (
                         <div key={index} className=" p-4 mt-2 mb-7 flex items-center border rounded-md cursor-pointer shadow-md" id={"hotelDiv"}
                              onClick={() => handleRedirect(parseInt(hotel.id))}>
                             <div className={"mr-10"}>

@@ -121,12 +121,12 @@ export default function HotelData ({ data  }) {
             <div className="absolute inset-0 h-[146px] bg-black opacity-30"></div>
             <nav className="relative flex items-center justify-between z-10">
                 <div className="flex items-center m-10 px-6">
-                    <a href="/my-nextjs-app/public">
+                    <a href="/">
                         <Image src="/icons/earth.png" alt="Earth icon" width={66} height={66}/>
                     </a>
                 </div>
                 <div className="flex items-center">
-                    <a className={"m-4 pb-1 text-xl text-outline"} href={""}>Пункти призначення</a>
+                    <a className={"m-4 pb-1 text-xl text-outline"} href={"/search"}>Пункти призначення</a>
                     <a className={"m-4 pb-1 text-xl text-outline"} href={"#"}>Блог</a>
                     <a className={"m-4 pb-1 text-xl text-outline"} href={"#"}>Про нас</a>
                     <a className={"m-4 pb-1 text-xl text-outline"} href={"#"}>Зв`&apos;яжіться з нами</a>

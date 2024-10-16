@@ -10,7 +10,12 @@
     "dateFrom": "2024-09-01",
     "dateTo": "2024-09-10",
     "image": "/images/hotel-example.jpg",
-    "rating" : 5
+    "rating" : 5,
+    "roomTypes": [
+      "Standard Room",
+      "Premium Room",
+      "Suite"
+    ]
   },
   {
     "id": 2,
