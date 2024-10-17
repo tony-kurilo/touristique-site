@@ -19,6 +19,26 @@ body {
   overflow-x: hidden;
 }
 
+form {
+  position: relative;
+}
+
+textarea {
+  width: 100%;
+  resize: vertical; /* Отключаем возможность ручного изменения */
+  overflow: hidden; /* Прячем скроллбар */
+  min-height: 40px; /* Минимальная высота */
+  max-height: 350px;
+}
+
+
+textarea {
+  width: 100%;
+  resize: both; /* Позволяет пользователю менять размеры вручную */
+  overflow: hidden; /* Скрываем скролл, когда текст выходит за пределы */
+}
+
+
 .carousel-container {
   width: 100%;
   overflow: hidden;
@@ -58,6 +78,56 @@ body {
   opacity: 0;
   transition: transform 1s ease-in-out, opacity 0.5s ease-in-out;
 }
+
+/* Спиннер */
+.spinner-border {
+  border-top-color: #3498db; /* Цвет спиннера */
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  width: 2rem;
+  height: 2rem;
+  border-width: 0.3rem;
+  border-style: solid;
+  border-radius: 50%;
+  animation: spin 0.5s linear infinite; /* Время: 1s, непрерывная анимация */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Анимация для галочки (success) */
+.checkmark-icon {
+  font-size: 2rem;
+  color: green;
+  animation: fadeIn 0.5s ease-in-out; /* Время: 0.5s */
+}
+
+/* Анимация для креста (error) */
+.crossmark-icon {
+  font-size: 2rem;
+  color: red;
+  animation: fadeIn 0.5s ease-in-out; /* Время: 0.5s */
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 
 #countryInput{
   background-color: whitesmoke;
