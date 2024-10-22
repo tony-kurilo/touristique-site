@@ -22,10 +22,10 @@ export default function Page() {
                     </a>
                 </div>
                 <div className="flex items-center">
-                    <a className={"m-4 p-1.5 text-xl text-outline "} href={""} id={"navButton"}>Пункти призначення</a>
-                    <a className={"m-4 p-1.5 text-xl text-outline"} href={"#"} id={"navButton"}>Блог</a>
-                    <a className={"m-4 p-1.5 text-xl text-outline"} href={"#"} id={"navButton"}>Про нас</a>
-                    <a className={"m-4 p-1.5 text-xl text-outline"} href={"#"} id={"navButton"}>Зв&apos;яжіться з нами</a>
+                    <a className={"m-4 p-1.5 text-xl navbar-a-animation"} href={"/search"} id={"navButton"}>Пункти призначення</a>
+                    <a className={"m-4 p-1.5 text-xl navbar-a-animation"} href={"/blog"} id={"navButton"}>Блог</a>
+                    <a className={"m-4 p-1.5 text-xl navbar-a-animation"} href={"/about-us"} id={"navButton"}>Про нас</a>
+                    <a className={"m-4 p-1.5 text-xl navbar-a-animation"} href={"/contact-us"} id={"navButton"}>Зв&apos;яжіться з нами</a>
                 </div>
                 <div className="flex items-center m-10 pr-10">
                     <a href="/">

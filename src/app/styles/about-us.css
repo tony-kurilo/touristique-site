@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+mark {
+    --color1: springgreen;
+    --color2: springgreen;
+    --bg-height: 100%;
+
+    all: unset;
+    background-image: linear-gradient(var(--color1), var(--color2));
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0 var(--bg-height);
+    animation: highlight 800ms 1 ease-out;
+    animation-fill-mode: forwards;
+    animation-play-state: paused;
+}
+
+
+@keyframes highlight {
+    to {
+        background-size: 100% var(--bg-height);
+    }
+}
+
+.Selfies{
+    background-color: #f3efec;
+
+}
+
+.Global1Color{
+    background-color: #192232;
+    color:white;
+}
+
+
+.image-container {
+
+    display: flex;
+    align-items: flex-end; /* Выравнивание изображений по нижнему краю */
+    justify-content: center; /* Расположение изображений с равными промежутками */
+    gap: 30px; /* Устанавливает расстояние между изображениями */
+}
+
+
+.horisontal-image{
+    border-radius: 10px;
+}
+
+button {
+    border: 1px solid white;
+    border-radius: 4px;
+    width: 200px;
+    height: 40px;
+    position: relative; /* Позиционирование для псевдоэлемента */
+    font-size: 16px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    color:white;
+}
+
+button::after {
+    content: "→"; /* Стрелка */
+    position: absolute;
+    right: -30px; /* Изначально скрыта за пределами кнопки */
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.3s ease; /* Плавный переход */
+    opacity: 0; /* Стрелка невидима изначально */
+}
+
+button:hover::after {
+    right: 15px; /* Перемещаем стрелку внутрь кнопки */
+    opacity: 1; /* Делаем стрелку видимой */
+}
+
+button:hover {
+    background-color: #F14848; /* Можно добавить эффект при наведении */
+    border-color: #F14848; /* Изменение цвета границы при наведении */
+    color:white;
+}
+
+.Contact-Us-Widget{
+    background-color: #0f5956;
+    height:400px;
+    overflow: hidden; /* Обрезает содержимое, которое выходит за рамки */
+
+}
+
+.image {
+    object-fit: cover; /* Заполняет контейнер, сохраняя пропорции */
+    height: 600px; /* Задаем фиксированную высоту */
+    width: 400px; /* Задаем фиксированную ширину */
+    border-radius: 10px; /* Закругление углов */
+    transition: transform 0.3s; /* Плавный переход при увеличении */
+}
+
+.image:hover {
+    transform: scale(1.05); /* Увеличение изображения при наведении */
+}
+
+
+.carousel-image {
+    height: 250px;
+    object-fit: cover; /* Сохраняет пропорции и заполняет контейнер */
+}
+
+.carousel-wrapper {
+    overflow: hidden; /* Скрываем элементы, выходящие за пределы видимой области */
+    white-space: nowrap; /* Элементы не переносятся на новую строку */
+    width: 100%;
+}
+
+.carousel-track {
+    display: inline-flex; /* Включаем отображение всех элементов в ряд */
+}
+
+.carousel-item {
+    flex-shrink: 0; /* Отключаем сжатие элементов */
+    padding: 10px; /* Отступы между элементами (можно настроить) */
+}
+
+.womanPhoto{
+    height: 100%;
+    width: 100%;
+    object-fit: cover; /* Изображение масштабируется, сохраняя пропорции и заполняя контейнер */
+}

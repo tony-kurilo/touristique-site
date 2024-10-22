@@ -13,10 +13,10 @@ export default function Home() {
                     <Image className="" src={"/icons/earth.png"} alt={"Earth icon"} width={"66"} height={"66"}></Image>
                 </div>
                 <div className="flex items-center">
-                    <a className={"m-4 pb-1 text-xl text-outline"} href={"/search"}>Пункти призначення</a>
-                    <a className={"m-4 pb-1 text-xl text-outline"} href={"/blog"}>Блог</a>
-                    <a className={"m-4 pb-1 text-xl text-outline"} href={"/about-us"}>Про нас</a>
-                    <a className={"m-4 pb-1 text-xl text-outline"} href={"/contact-us"}>Зв&apos;яжіться з нами</a>
+                    <a className={"m-4 pb-1 text-xl navbar-a-animation"} href={"/search"}>Пункти призначення</a>
+                    <a className={"m-4 pb-1 text-xl navbar-a-animation"} href={"/blog"}>Блог</a>
+                    <a className={"m-4 pb-1 text-xl navbar-a-animation"} href={"/about-us"}>Про нас</a>
+                    <a className={"m-4 pb-1 text-xl navbar-a-animation"} href={"/contact-us"}>Зв&apos;яжіться з нами</a>
                 </div>
                 <div className="flex items-center m-10 pr-10">
                     <a href="/basket">

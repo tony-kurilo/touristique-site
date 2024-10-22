@@ -463,7 +463,7 @@ textarea {
 
 #hotelDiv:hover{
   box-shadow: 0 0 5px rgba(45, 51, 57, 0.5); /* Подсветка при фокусе*/
-  transition: all 0.1s ease;
+  transition: all 0.2s ease;
 }
 
 #loadingButton{
@@ -534,6 +534,34 @@ textarea {
   top:30rem;
 }
 
+.navbar-a-animation {
+  color: white;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 1px;
+  transition: color 0.5s ease;
+
+}
+.navbar-a-animation:hover{
+  color : #16e1d7;
+}
+
+.navbar-a-animation::after {
+  content: '';
+  position: absolute;
+  left: 50%; /* Начало линии с середины */
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: #16e1d7;
+  transition: width 0.4s ease, left 0.4s ease; /* Анимация увеличения ширины и смещения */
+}
+
+.navbar-a-animation:hover::after {
+  width: 100%; /* Линия растягивается на всю ширину */
+  left: 0; /* Линия смещается влево */
+}
+
 .-top-100{
   top:34rem;
 }
@@ -586,6 +614,134 @@ textarea {
   border: 10px solid transparent;
   border-top: 17px solid rgba(241, 72, 72, 0.9);
 }
+
+.news-container{
+  width: 400px;
+  height: auto;  /* Контейнер будет автоматически расти в зависимости от контента */
+  border: 1px solid black;
+  margin: 20px;
+  border-radius: 5px;
+}
+.news-container img{
+  height: 250px;
+}
+.contentPreview {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4; /* Ограничиваем количество строк */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.titlePreview {
+  word-wrap: break-word;   /* Переносит текст на новую строку, если он выходит за границы */
+
+}
+
+/* General grid container for all blocks */
+.grid-container {
+  display: grid;
+  gap: 20px; /* Spacing between blocks */
+  margin: 40px; /* Outer margin for grid */
+}
+
+/* Block 1: Four news items in a row */
+.grid-block-1 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 equal-width columns */
+  gap: 20px; /* Spacing between items */
+}
+
+/* Block 2: Three news items in a row */
+.grid-block-2 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
+  gap: 20px;
+}
+
+/* Block 3: Two news items in a row */
+.grid-block-3 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 equal-width columns */
+  gap: 20px;
+}
+
+/* Block 4: One news item in full width */
+.grid-block-4 {
+  display: grid;
+  grid-template-columns: 1fr; /* 1 full-width column */
+}
+
+/* Styling each news item */
+.news-item {
+  background-color: #f8f9fa; /* Light background */
+  border-radius: 10px; /* Rounded corners */
+  overflow: hidden; /* Ensure content doesn't overflow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation on hover */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.news-item:hover {
+  transform: scale(1.05); /* Slight zoom on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+}
+
+.news-item img {
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* Ensures images are nicely cropped if needed */
+}
+
+/* Styling for text content inside news items */
+.news-item p {
+  margin: 0;
+  padding: 0;
+}
+
+.news-item .text-xl {
+  font-size: 1.25rem; /* Larger font for title */
+  font-weight: bold;
+  color: #343a40;
+}
+
+.news-item .news-title {
+  margin-top: 10px;
+}
+
+.news-item .news-content {
+  color: #6c757d; /* Muted text color for content */
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.news-item .flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #495057;
+}
+
+/* Optional: Responsive adjustments */
+@media (max-width: 1200px) {
+  .grid-block-1 {
+    grid-template-columns: repeat(3, 1fr); /* Adjust to 3 columns on smaller screens */
+  }
+  .grid-block-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .grid-block-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-block-1,
+  .grid-block-2,
+  .grid-block-3,
+  .grid-block-4 {
+    grid-template-columns: 1fr; /* All blocks become single-column on small screens */
+  }
+}
+
 
 @layer utilities {
   .text-balance {
