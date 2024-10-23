@@ -1,0 +1,180 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+body{
+    background-color: #171717;
+}
+
+.blog-title{
+    position: relative; /* Для абсолютного позиционирования overlay */
+    background-color: #ffffff; /* Light background */
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Ensure content doesn't overflow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation on hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-left: 200px ;
+    margin-right: 200px ;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.news-back{
+    position: relative; /* Для абсолютного позиционирования overlay */
+    background-color: #e4e4e4; /* Light background */
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Ensure content doesn't overflow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation on hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-top:20px;
+    margin-left:200px;
+    margin-right:200px;
+
+    padding-bottom: 35px;
+}
+
+/* General grid container for all blocks */
+.grid-container {
+    display: grid;
+    gap: 20px; /* Spacing between blocks */
+    margin-top: 40px; /* Outer margin for grid */
+}
+
+/* Block 1: Four news items in a row */
+.grid-block-1 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 equal-width columns */
+    gap: 20px; /* Spacing between items */
+}
+
+/* Block 2: Three news items in a row */
+.grid-block-2 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
+    gap: 20px;
+}
+
+/* Block 3: Two news items in a row */
+.grid-block-3 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 equal-width columns */
+    gap: 20px;
+}
+
+/* Block 4: One news item in full width */
+.grid-block-4 {
+    display: grid;
+    grid-template-columns: 1fr; /* 1 full-width column */
+}
+
+/* Styling each news item */
+.news-item {
+    position: relative; /* Для абсолютного позиционирования overlay */
+    background-color: #f8f9fa; /* Light background */
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Ensure content doesn't overflow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation on hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.news-item-1news {
+    position: relative; /* Для абсолютного позиционирования overlay */
+    background-color: #ffffff; /* Light background */
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Ensure content doesn't overflow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation on hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.news-item:hover {
+    transform: scale(1.01); /* Slight zoom on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+}
+
+.news-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Ensures images are nicely cropped if needed */
+}
+
+.news-item .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+    color: white;
+    transition: background 0.3s ease; /* Плавный переход */
+}
+
+/* Контейнер для текста, чтобы градиентная область масштабировалась по контенту */
+.news-item .content-wrapper {
+    position: relative;
+    padding: 10px;
+    z-index: 2; /* Чтобы текст был поверх градиента */
+}
+
+.news-item .overlay p {
+    margin: 0;
+}
+
+/* Styling for text content inside news items */
+.news-item p {
+    margin: 0;
+    padding: 0;
+}
+
+.news-item .text-xl {
+    font-size: 1.25rem; /* Larger font for title */
+    font-weight: bold;
+    color: white; /* Белый цвет текста для контраста */
+    word-break: break-word; /* Разрыв слов для длинных слов */
+    display: -webkit-box; /* Включаем flexbox для многоточия */
+    -webkit-line-clamp: 6; /* Максимум 6 строк */
+    -webkit-box-orient: vertical; /* Вертикальная ориентация */
+    overflow: hidden; /* Скрываем текст, который не помещается */
+    text-overflow: ellipsis; /* Добавляем многоточие */
+}
+
+.news-item .news-title {
+    margin-top: 10px;
+}
+
+.news-item .news-content {
+    color: #e9ecef; /* Светлый текст для содержимого */
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.news-item .flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #adb5bd; /* Светлый цвет для дат и типов */
+}
+
+
+/* Optional: Responsive adjustments */
+@media (max-width: 1200px) {
+    .grid-block-1 {
+        grid-template-columns: repeat(3, 1fr); /* Adjust to 3 columns on smaller screens */
+    }
+    .grid-block-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .grid-block-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-block-1,
+    .grid-block-2,
+    .grid-block-3,
+    .grid-block-4 {
+        grid-template-columns: 1fr; /* All blocks become single-column on small screens */
+    }
+}

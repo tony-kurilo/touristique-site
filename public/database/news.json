@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "title": "Первая новость",
+    "img": "/images/castle.png",
+    "date": "13.09.2024",
+    "type": "Новина"
+  },
+  {
+    "id": 2,
+    "title": "Вторая новость",
+    "img": "/images/contact-us.png",
+    "date": "15.09.2024",
+    "type": "Акція"
+  },
+  {
+    "id": 3,
+    "title": "Третья новость",
+    "img": "/images/castle.png",
+    "date": "20.09.2024",
+    "type": "Новина"
+  },
+  {
+    "id": 4,
+    "title": "Вторая новость",
+    "img": "/images/contact-us.png",
+    "date": "15.09.2024",
+    "type": "Акція"
+  },
+  {
+    "id": 5,
+    "title": "Вторая новость",
+    "img": "/images/contact-us.png",
+    "date": "15.09.2024",
+    "type": "Акція"
+  },
+  {
+    "id": 6,
+    "title": "Вторая новость",
+    "img": "/images/contact-us.png",
+    "date": "15.09.2024",
+    "type": "Акція"
+  },
+  {
+    "id": 7,
+    "title": "Вторая новость",
+    "img": "/images/contact-us.png",
+    "date": "15.09.2024",
+    "type": "Акція"
+  },
+  {
+    "id": 8,
+    "title": "Вторая новость",
+    "img": "/images/contact-us.png",
+    "date": "15.09.2024",
+    "type": "Акція"
+  },
+  {
+    "id": 9,
+    "title": "Вторая новость",
+    "img": "/images/contact-us.png",
+    "date": "15.09.2024",
+    "type": "Акція"
+  },
+  {
+    "id": 10,
+    "title": "Loh новость",
+    "img": "/images/contact-us.png",
+    "date": "15.09.2024",
+    "type": "Акція"
+  }
+]

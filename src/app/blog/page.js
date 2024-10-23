@@ -1,23 +1,82 @@
 import Link from 'next/link';
 import Image from "next/image";
-import "../styles/globals.css"
-const BlogPage = () => {
-    const articles = [
-        { id: 1, title: 'ASDDDDDDDDDDDDDDDDDDDDDDDDDDD', img:'/images/castle.png', date:"13.09.2024", type:"Новина", content:"Lorem iLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lobortis pellentesque justo. Pellentesque eros leo, suscipit eget mi in, fermentum elementum eros. Nulla feugiat augue nibh, non tempor dolor maximus eu. Cras ut scelerisque lectus, quis suscipit ipsum. Curabitur eros lorem, ullamcorper vel condimentum ac, ultricies pulvinar purus. Praesent vitae urna tellus. Morbi porttitor condimentum felis eu tincidunt. Curabitur dapibus sed leo at vestibulum. Quisque in sem porta, aliquam turpis eget, ultrices ipsum. In condimentum mauris a arcu scelerisque scelerisque. Pellentesque gravida facilisis ante in ullamcorper. Vivamus malesuada hendrerit est at efficitur. Aliquam ullamcorper vulputate felis, a suscipit ligula interdum in. Integer eleifend diam nec iaculis bibendum. Phasellus sit amet condimentum lacus. Morbi fermentum pellentesque viverra.\n" +
-                "\npsum"},
-        { id: 2, title: 'Вторая новость', img:'/images/contact-us.png', date:"15.09.2024", type:"Акція"},
-        { id: 3, title: 'Вторая новость', img:'/images/contact-us.png', date:"15.09.2024", type:"Акція"},
-        { id: 4, title: 'Вторая новость', img:'/images/contact-us.png', date:"15.09.2024", type:"Акція"},
-        { id: 5, title: 'Вторая новость', img:'/images/contact-us.png', date:"15.09.2024", type:"Акція"},
-        { id: 6, title: 'Вторая новость', img:'/images/contact-us.png', date:"15.09.2024", type:"Акція"},
-        { id: 7, title: 'Вторая новость', img:'/images/contact-us.png', date:"15.09.2024", type:"Акція"},
-        { id: 8, title: 'Вторая новость', img:'/images/contact-us.png', date:"15.09.2024", type:"Акція"},
-        { id: 9, title: 'Вторая новость', img:'/images/contact-us.png', date:"15.09.2024", type:"Акція"},
-        { id: 10, title: 'Вторая новость', img:'/images/contact-us.png', date:"15.09.2024", type:"Акція"},
+import "../styles/blog.css"
+import fs from 'fs';
+import path from 'path';
+import Grid1 from './components/Grid1';
+import Grid2 from './components/Grid2';
+import Grid3 from './components/Grid3';
+import Grid4 from './components/Grid4';
 
+async function fetchArticles() {
+    const filePath = path.join(process.cwd(), 'public', 'database', 'news.json');
+    const jsonData = fs.readFileSync(filePath, 'utf-8');
+    return JSON.parse(jsonData);
+}
 
-        // Другие статьи
-    ];
+// Список доступных гридов
+const gridComponents = [Grid1, Grid2, Grid3, Grid4];
+
+export default async function BlogPage() {
+
+    const articles = await fetchArticles(); // Fetching data asynchronously
+    const sortedArticles = articles.sort((a, b) => b.id - a.id);
+
+    const renderArticles = () => {
+        const elements = [];
+
+        // Находим последний элемент по id
+        const lastArticle = articles.reduce((prev, current) => {
+            return (prev.id > current.id) ? prev : current;
+        });
+
+        // Первой строкой всегда Grid1 с последней новостью
+        elements.push(<Grid1 key={lastArticle.id} articleIds={[lastArticle.id]} articles={sortedArticles} />);
+
+        // Удаляем последний элемент из списка статей
+        let remainingArticles = articles.filter(article => article.id !== lastArticle.id);
+
+        // Генерация оставшихся гридов
+        let lastGridIndex = -1; // Индекс последнего использованного грида
+        let i = 0; // Индекс для цикла
+
+        while (i < remainingArticles.length) {
+            let gridIndex;
+            let articlesForGrid = [];
+
+            // Выбор случайного грида, который не повторяет предыдущий
+            do {
+                gridIndex = Math.floor(Math.random() * gridComponents.length);
+            } while (gridIndex === lastGridIndex);
+
+            const GridComponent = gridComponents[gridIndex];
+            const remainingCount = remainingArticles.length - i;
+
+            // Определение количества статей для каждого грида
+            if (remainingCount >= 4 && (gridIndex === 1 || gridIndex === 3)) {
+                // Используем Grid с 4 статьями
+                articlesForGrid = remainingArticles.slice(i, i + 4).map(article => article.id);
+                i += 4;
+            } else if (remainingCount >= 3 && gridIndex === 2) {
+                // Используем Grid с 3 статьями
+                articlesForGrid = remainingArticles.slice(i, i + 3).map(article => article.id);
+                i += 3;
+            } else if (remainingCount >= 2 && gridIndex === 2) {
+                // Используем Grid с 2 статьями
+                articlesForGrid = remainingArticles.slice(i, i + 2).map(article => article.id);
+                i += 2;
+            } else {
+                // Используем Grid с 1 статьей (если осталась только 1 статья)
+                articlesForGrid = [remainingArticles[i].id];
+                i += 1;
+            }
+
+            elements.push(<GridComponent key={gridIndex + i} articleIds={articlesForGrid} articles={sortedArticles} />);
+            lastGridIndex = gridIndex; // Обновление индекса последнего использованного грида
+        }
+
+        return elements;
+    };
 
     return (
         <div>
@@ -48,88 +107,16 @@ const BlogPage = () => {
                     </div>
                 </nav>
             </div>
-            <div>
-                <h1 className={"text-3xl relative flex items-center justify-center mt-10"}>Новини та акції</h1>
+            <div className={" blog-title mt-10"}>
+                <h1 className={"text-3xl relative flex items-center justify-center "}>Новини та акції</h1>
+            </div>
+            <div className={"news-back"}>
                 <div className="grid-container">
-                    {/* Block 1: Four news items */}
-                    <div className="grid-block-1">
-                        {articles.slice(0, 4).map(article => (
-                            <div key={article.id} className="news-item">
-                                <Link href={`/blog/${article.id}`}>
-                                    <Image src={article.img} width={400} height={200}/>
-                                    <div className="flex justify-between mx-4 my-2">
-                                        <p>{article.type}</p>
-                                        <p>{article.date}</p>
-                                    </div>
-                                    <div className="mx-4">
-                                        <p className="text-xl">{article.title}</p>
-                                        <p className="mt-2">{article.content}</p>
-                                    </div>
-                                </Link>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Block 2: Three news items */}
-                    <div className="grid-block-2">
-                        {articles.slice(4, 7).map(article => (
-                            <div key={article.id} className="news-item">
-                                <Link href={`/blog/${article.id}`}>
-                                    <Image src={article.img} width={400} height={200}/>
-                                    <div className="flex justify-between mx-4 my-2">
-                                        <p>{article.type}</p>
-                                        <p>{article.date}</p>
-                                    </div>
-                                    <div className="mx-4">
-                                        <p className="text-xl">{article.title}</p>
-                                        <p className="mt-2">{article.content}</p>
-                                    </div>
-                                </Link>                            </div>
-                        ))}
-                    </div>
-
-                    {/* Block 3: Two news items */}
-                    <div className="grid-block-3">
-                        {articles.slice(7, 9).map(article => (
-                            <div key={article.id} className="news-item">
-                                <Link href={`/blog/${article.id}`}>
-                                    <Image src={article.img} width={400} height={200}/>
-                                    <div className="flex justify-between mx-4 my-2">
-                                        <p>{article.type}</p>
-                                        <p>{article.date}</p>
-                                    </div>
-                                    <div className="mx-4">
-                                        <p className="text-xl">{article.title}</p>
-                                        <p className="mt-2">{article.content}</p>
-                                    </div>
-                                </Link>                            </div>
-                        ))}
-                    </div>
-
-                    {/* Block 4: One news item */}
-                    <div className="grid-block-4">
-                        {articles.slice(9, 10).map(article => (
-                            <div key={article.id} className="flex news-item">
-                                <Link href={`/blog/${article.id}`}>
-                                    <div>
-                                        <Image src={article.img} width={400} height={200}/>
-                                    </div>
-                                    <div className="flex justify-between mx-4 my-2">
-                                        <p>{article.type}</p>
-                                        <p>{article.date}</p>
-                                    </div>
-                                    <div className="mx-4">
-                                        <p className="text-xl">{article.title}</p>
-                                        <p className="mt-2">{article.content}</p>
-                                    </div>
-                                </Link>
-                            </div>
-                        ))}
-                    </div>
+                    {renderArticles()}
                 </div>
             </div>
         </div>
     );
 };
 
-export default BlogPage;
+
