@@ -15,11 +15,6 @@ const AuthForm = () => {
     useEffect(() => {
         // Проверяем, есть ли токен в localStorage (или в cookies)
         const token = localStorage.getItem('authToken'); // Это имя может быть другим, в зависимости от того, как хранится токен
-
-        if (token) {
-            // Если пользователь уже залогинен, перенаправляем его на другую страницу (например, профиль)
-            router.replace('/profile');
-        }
     }, [router]);
 
     return (
@@ -33,29 +28,24 @@ const AuthForm = () => {
                 <nav className="relative flex items-center justify-between z-10">
                     <div className="flex items-center m-10 px-6">
                         <a href="/">
-                            <Image className="" src={"/icons/promo1.png"} alt={"Earth icon"} width={"150"} height={"150"}></Image>
+                            <Image src="/icons/earth.png" alt="Earth icon" width={66} height={66}/>
                         </a>
                     </div>
                     <div className="flex items-center">
-                        <a className={"m-4 pb-1 text-xl navbar-a-animation geologica-200"} href={"/search"}>Пункти
-                            призначення</a>
-                        <a className={"m-4 pb-1 text-xl navbar-a-animation geologica-200"} href={"/blog"}>Блог</a>
-                        <a className={"m-4 pb-1 text-xl navbar-a-animation geologica-200"} href={"/about-us"}>Про
-                            нас</a>
-                        <a className={"m-4 pb-1 text-xl navbar-a-animation geologica-200"}
-                           href={"/contact-us"}>Зв&apos;яжіться з нами</a>
+                        <a className={"m-4 pb-1 text-xl text-outline"} href={"/search"}>Пункти призначення</a>
+                        <a className={"m-4 pb-1 text-xl text-outline"} href={"#"}>Блог</a>
+                        <a className={"m-4 pb-1 text-xl text-outline"} href={"#"}>Про нас</a>
+                        <a className={"m-4 pb-1 text-xl text-outline"} href={"#"}>Зв&apos;яжіться з нами</a>
                     </div>
                     <div className="flex items-center m-10 pr-10">
-                        <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist icon"} width={33}
-                               height={33}/>
-                        <Image className={"mr-2"} src={"/icons/account_white.png"} alt={"Account icon"} width={37}
-                               height={37}/>
+                        <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist icon"} width={33} height={33}/>
+                        <Image className={"mr-2"} src={"/icons/account_white.png"} alt={"Account icon"} width={37} height={37}/>
                     </div>
                 </nav>
             </div>
 
             {/* Центрированная форма */}
-            <div className="relative z-10 bg-neutral-700 p-6 rounded-lg shadow-md w-full max-w-md geologica-200">
+            <div className="relative z-10 bg-neutral-700 p-6 rounded-lg shadow-md w-full max-w-md">
                 <h2 className="text-2xl font-bold text-center mb-4 text-gray-100">
                     {isLoginForm ? 'Вхід' : 'Реєстрація'}
                 </h2>
