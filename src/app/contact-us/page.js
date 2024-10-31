@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React, {useEffect, useState} from "react";
 import "../styles/globals.css";
+import Footer from "../components/Footer";
 
 export default function Page() {
     const [name, setName] = useState("");
@@ -91,14 +92,17 @@ export default function Page() {
                 <nav className="relative flex items-center justify-between z-10">
                     <div className="flex items-center m-10 px-6">
                         <a href="/">
-                            <Image src="/icons/earth.png" alt="Earth icon" width={66} height={66}/>
+                            <Image className="" src={"/icons/promo1.png"} alt={"Earth icon"} width={"150"} height={"150"}></Image>
                         </a>
                     </div>
                     <div className="flex items-center">
-                        <a className={"m-4 pb-1 text-xl navbar-a-animation"} href={"/search"}>Пункти призначення</a>
-                        <a className={"m-4 pb-1 text-xl navbar-a-animation"} href={"/blog"}>Блог</a>
-                        <a className={"m-4 pb-1 text-xl navbar-a-animation"} href={"/about-us"}>Про нас</a>
-                        <a className={"m-4 pb-1 text-xl navbar-a-animation"} href={"/contact-us"}>Зв&apos;яжіться з нами</a>
+                        <a className={"m-4 pb-1 text-xl navbar-a-animation geologica-200"} href={"/search"}>Пункти
+                            призначення</a>
+                        <a className={"m-4 pb-1 text-xl navbar-a-animation geologica-200"} href={"/blog"}>Блог</a>
+                        <a className={"m-4 pb-1 text-xl navbar-a-animation geologica-200"} href={"/about-us"}>Про
+                            нас</a>
+                        <a className={"m-4 pb-1 text-xl navbar-a-animation geologica-200"}
+                           href={"/contact-us"}>Зв&apos;яжіться з нами</a>
                     </div>
                     <div className="flex items-center m-10 pr-10">
                         <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist icon"} width={33}
@@ -108,7 +112,7 @@ export default function Page() {
                     </div>
                 </nav>
             </div>
-            <div className="relative z-10 bg-neutral-700 p-6 rounded-lg shadow-md w-full max-w-md ">
+            <div className="relative z-10 bg-neutral-700 p-6 rounded-lg shadow-md w-full max-w-md geologica-200">
                 {status === "loading" && (
                     <div className="flex flex-col items-center justify-center">
                         <div className="spinner-border animate-spin"></div>

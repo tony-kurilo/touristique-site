@@ -7,6 +7,7 @@ import VideoBackground from './components/VideoBackground';
 import ImageCarousel from "./components/ImageCarousel";
 import ClientTestimonials from "@/app/components/ClientTestimonials";
 import Footer from "@/app/components/Footer";
+import "./styles/main.css";
 
 export default function Home() {
     const [isVisible, setIsVisible] = useState(false);

@@ -23,6 +23,7 @@
     overflow: hidden; /* Ensure content doesn't overflow */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation on hover */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding-bottom: 20px;
 }
 
 .news-item:hover {
@@ -60,8 +61,8 @@
 
 /* Styling for text content inside news items */
 .news-item p {
-    margin: 0;
-    padding: 0;
+    margin: 10px 16px 3px 16px;
+    padding: 1px 1px 2px 1px;
 }
 
 .news-item .text-xl {
@@ -91,4 +92,33 @@
     justify-content: space-between;
     align-items: center;
     color: #adb5bd; /* Светлый цвет для дат и типов */
+}
+
+
+.carousel-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.image-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+}
+.image-container::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%; /* Высота градиента */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)); /* Градиент от темного к прозрачному */
+    pointer-events: none; /* Чтобы градиент не мешал взаимодействию с контентом */
+}
+.carousel-image {
+    width: 100%; /* фиксированная ширина */
+    height: 100%; /* фиксированная высота */
+    object-fit: cover; /* Сохраняет пропорции и центрирует изображение */
 }

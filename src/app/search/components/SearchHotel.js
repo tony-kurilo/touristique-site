@@ -332,13 +332,13 @@ export default function HotelSearch() {
                                 <Image src={hotel.image} width={"510"} height={"333"} className={"border rounded cursor-pointer"}></Image>
                             </div>
                             <div className={""}>
-                                <h2 className={"text-3xl mb-1"} onClick={(e) => e.stopPropagation()}>{hotel.name}</h2>
+                                <h2 className={"text-3xl mb-1 geologica-300"} onClick={(e) => e.stopPropagation()}>{hotel.name}</h2>
                                 <p className={"mb-10"} onClick={(e) => e.stopPropagation()}>Оцінка</p>
                                 <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Адреса</p>
                                 <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Виліт від: {hotel.dateFrom}</p>
                                 <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Ночей: 4 </p>
                                 <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Тур закінчується: 2024-09-05 </p>
-                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Тип номеру: двомісний</p>
+                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Тип номеру: Люкс двомісний</p>
                                 <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Тип харчування: all-inclusive</p>
                             </div>
                             <div className={"ml-72 mr-2 relative"}>
