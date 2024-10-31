@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import {router} from "next/client"; // Укажите правильный путь к вашему JSON
 
@@ -8,11 +9,10 @@ const LoginForm = () => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState(''); // Для отображения ошибки
 
-
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('src/app/api/login', {
+            const response = await fetch('/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -21,23 +21,19 @@ const LoginForm = () => {
             });
 
             if (response.ok) {
-                const data = await response.json();
-                const { token } = data;
-
-                // Сохраняем токен в localStorage
+                const { token } = await response.json();
                 localStorage.setItem('authToken', token);
-
-                // Дополнительные действия, например, редирект пользователя
-                console.log('Успешный вход! Токен:', token);
+                console.log('Успешный вход!');
             } else {
                 const errorData = await response.json();
-                setErrorMessage(errorData.message);
+                setErrorMessage(errorData.message || 'Ошибка входа');
             }
         } catch (error) {
-            console.error('Ошибка входа:', error);
-            setErrorMessage('Ошибка входа, попробуйте позже.');
+            console.error('Ошибка:', error);
+            setErrorMessage('Ошибка сервера, попробуйте позже.');
         }
     };
+
 
     return (
         <form onSubmit={handleLogin}>
