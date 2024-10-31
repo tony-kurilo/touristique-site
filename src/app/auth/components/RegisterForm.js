@@ -4,37 +4,18 @@ const RegisterForm = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
 
-    const handleRegister = async (e) => {
+    const handleRegister = (e) => {
         e.preventDefault();
-        try {
-            const response = await fetch('/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, email, password }),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setMessage('Регистрация прошла успешно! Ваш ID: ' + data.userId);
-            } else {
-                const errorData = await response.json();
-                setMessage('Ошибка регистрации: ' + errorData.message);
-            }
-        } catch (error) {
-            console.error('Ошибка регистрации:', error);
-            setMessage('Ошибка сервера, попробуйте позже.');
-        }
+        // Логика отправки данных на сервер для регистрации
+        console.log('Регистрация:', { username, email, password });
     };
 
     return (
         <form onSubmit={handleRegister}>
             <div className="mb-4">
                 <label htmlFor="username" className="block text-gray-100">
-                    Имя пользователя
+                    Ім&apos;я користувача
                 </label>
                 <input
                     type="text"
@@ -71,20 +52,14 @@ const RegisterForm = () => {
                     required
                 />
             </div>
-
-            {message && (
-                <div className="mb-4 text-green-500">{message}</div>
-            )}
-
             <button
                 type="submit"
                 className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-700"
             >
-                Зарегистрироваться
+                Зареєструватися
             </button>
         </form>
     );
 };
 
 export default RegisterForm;
-

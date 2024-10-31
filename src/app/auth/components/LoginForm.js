@@ -8,31 +8,36 @@ const LoginForm = () => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState(''); // Для отображения ошибки
 
+
     const handleLogin = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
+        e.preventDefault();
+        try {
+            const response = await fetch('src/app/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
 
-    if (response.ok) {
-      const { token } = await response.json();
-      localStorage.setItem('authToken', token);
-      console.log('Успешный вход!');
-    } else {
-      const errorData = await response.json();
-      setErrorMessage(errorData.message || 'Ошибка входа');
-    }
-  } catch (error) {
-    console.error('Ошибка:', error);
-    setErrorMessage('Ошибка сервера, попробуйте позже.');
-  }
-};
+            if (response.ok) {
+                const data = await response.json();
+                const { token } = data;
 
+                // Сохраняем токен в localStorage
+                localStorage.setItem('authToken', token);
+
+                // Дополнительные действия, например, редирект пользователя
+                console.log('Успешный вход! Токен:', token);
+            } else {
+                const errorData = await response.json();
+                setErrorMessage(errorData.message);
+            }
+        } catch (error) {
+            console.error('Ошибка входа:', error);
+            setErrorMessage('Ошибка входа, попробуйте позже.');
+        }
+    };
 
     return (
         <form onSubmit={handleLogin}>

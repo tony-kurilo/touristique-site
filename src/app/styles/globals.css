@@ -2,6 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+.dela-gothic-one-regular {
+  font-family: "Dela Gothic One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.geologica-200 {
+  font-family: "Geologica", serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+  font-variation-settings:
+          "slnt" 0,
+          "CRSV" 0,
+          "SHRP" 0;
+}
+.geologica-300 {
+  font-family: "Geologica", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings:
+          "slnt" 0,
+          "CRSV" 0,
+          "SHRP" 0;
+}
+
+
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -19,22 +48,26 @@ body {
   overflow-x: hidden;
 }
 
-.carousel-container {
-  width: 100%;
-  overflow: hidden;
+form {
+  position: relative;
 }
 
-.image-container {
+textarea {
   width: 100%;
-  height: 100%;
-  display: flex;
+  resize: vertical; /* Отключаем возможность ручного изменения */
+  overflow: hidden; /* Прячем скроллбар */
+  min-height: 40px; /* Минимальная высота */
+  max-height: 350px;
 }
 
-.carousel-image {
-  width: 100%; /* фиксированная ширина */
-  height: 100%; /* фиксированная высота */
-  object-fit: cover; /* Сохраняет пропорции и центрирует изображение */
+
+textarea {
+  width: 100%;
+  resize: both; /* Позволяет пользователю менять размеры вручную */
+  overflow: hidden; /* Скрываем скролл, когда текст выходит за пределы */
 }
+
+
 
 /* styles.css */
 .quote-enter {
@@ -58,6 +91,56 @@ body {
   opacity: 0;
   transition: transform 1s ease-in-out, opacity 0.5s ease-in-out;
 }
+
+/* Спиннер */
+.spinner-border {
+  border-top-color: #3498db; /* Цвет спиннера */
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  width: 2rem;
+  height: 2rem;
+  border-width: 0.3rem;
+  border-style: solid;
+  border-radius: 50%;
+  animation: spin 0.5s linear infinite; /* Время: 1s, непрерывная анимация */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Анимация для галочки (success) */
+.checkmark-icon {
+  font-size: 2rem;
+  color: green;
+  animation: fadeIn 0.5s ease-in-out; /* Время: 0.5s */
+}
+
+/* Анимация для креста (error) */
+.crossmark-icon {
+  font-size: 2rem;
+  color: red;
+  animation: fadeIn 0.5s ease-in-out; /* Время: 0.5s */
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 
 #countryInput{
   background-color: whitesmoke;
@@ -393,7 +476,7 @@ body {
 
 #hotelDiv:hover{
   box-shadow: 0 0 5px rgba(45, 51, 57, 0.5); /* Подсветка при фокусе*/
-  transition: all 0.1s ease;
+  transition: all 0.2s ease;
 }
 
 #loadingButton{
@@ -464,6 +547,34 @@ body {
   top:30rem;
 }
 
+.navbar-a-animation {
+  color: white;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 1px;
+  transition: color 0.5s ease;
+
+}
+.navbar-a-animation:hover{
+  color : #16e1d7;
+}
+
+.navbar-a-animation::after {
+  content: '';
+  position: absolute;
+  left: 50%; /* Начало линии с середины */
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: #16e1d7;
+  transition: width 0.4s ease, left 0.4s ease; /* Анимация увеличения ширины и смещения */
+}
+
+.navbar-a-animation:hover::after {
+  width: 100%; /* Линия растягивается на всю ширину */
+  left: 0; /* Линия смещается влево */
+}
+
 .-top-100{
   top:34rem;
 }
@@ -515,6 +626,65 @@ body {
   left: -6px;
   border: 10px solid transparent;
   border-top: 17px solid rgba(241, 72, 72, 0.9);
+}
+
+
+
+/* General grid container for all blocks */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
+  gap: 40px;
+}
+/* Styling each news item */
+.news-item {
+  position: relative; /* Для абсолютного позиционирования overlay */
+  background-color: #f8f9fa; /* Light background */
+  border-radius: 5px; /* Rounded corners */
+  overflow: hidden; /* Ensure content doesn't overflow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation on hover */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+.news-item:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+}
+
+.news-item img {
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* Ensures images are nicely cropped if needed */
+}
+
+/* Styling for text content inside news items */
+.news-item p {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(100%); /* Начальное положение (внизу) */
+    opacity: 0; /* Начальная прозрачность */
+  }
+  100% {
+    transform: translateY(0); /* Конечное положение (по центру) */
+    opacity: 1; /* Конечная прозрачность */
+  }
+}
+
+.slide-up {
+  animation: slide-up 1s forwards; /* Применение анимации */
+}
+.transition-opacity {
+  transition: opacity 0.5s ease-in-out; /* Плавный переход для opacity */
+}
+.opacity-0 {
+  opacity: 0; /* Начальное состояние */
+}
+.opacity-100 {
+  opacity: 1; /* Конечное состояние */
 }
 
 @layer utilities {

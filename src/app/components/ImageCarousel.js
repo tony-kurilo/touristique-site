@@ -21,14 +21,14 @@ export default function ImageCarousel() {
         "/images/house4.png",
     ];
     const texts = [
-        "Text for Microchel 1",
-        "Text for House 1",
-        "Text for Microchel 2",
-        "Text for House 2",
-        "Text for Microchel 3",
-        "Text for House 3",
-        "Text for Microchel 4",
-        "Text for House 4",
+        "Унікальний Мадагаскар лемурів",
+        "Давня Греція",
+        "Безмежні простори Африки сурикатів",
+        "Велична сіднейська опера Австралії",
+        "Південна Америка",
+        "Неперевершена архітектура Італії",
+        "Дика Африка",
+        "Мальовнича Ірландія",
     ];
 
     const handleWheel = (event) => {
@@ -81,7 +81,7 @@ export default function ImageCarousel() {
                     <SwiperSlide key={index}>
                         <div className="image-container relative">
                             <img src={image} alt={`Slide ${index}`} className="carousel-image"/>
-                            <div className="absolute bottom-4 left-4 text-white bg-black bg-opacity-50 p-2 rounded">
+                            <div className="absolute bottom-4 left-4 text-white rounded z-10 p-3 text-xl geologica-300">
                                 {texts[index]}
                             </div>
                         </div>
