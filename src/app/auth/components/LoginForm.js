@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import {router} from "next/client"; // Укажите правильный путь к вашему JSON
+import {useRouter} from "next/navigation"; // Укажите правильный путь к вашему JSON
 
 const secretKey = 'your_secret_key'; // Секретный ключ для генерации токена (должен быть безопасно храним)
 
@@ -8,6 +8,7 @@ const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState(''); // Для отображения ошибки
+    const router = useRouter(); // Инициализация useRouter
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -16,14 +17,14 @@ const LoginForm = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'credentials': 'include', // Включаем куки в запрос
                 },
                 body: JSON.stringify({ email, password }),
             });
 
             if (response.ok) {
-                const { token } = await response.json();
-                localStorage.setItem('authToken', token);
                 console.log('Успешный вход!');
+                router.push('/my-profile'); // Перенаправляем на личный кабинет
             } else {
                 const errorData = await response.json();
                 setErrorMessage(errorData.message || 'Ошибка входа');

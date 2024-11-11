@@ -1,25 +1,30 @@
-import fs from 'fs';
-import path from 'path';
 import React from "react";
 import HotelData from "./components/HotelData";
 
 // Функция для получения данных отеля
 async function getHotelData(id) {
-    const hotelsFilePath = path.join(process.cwd(), 'public/database/hotels1.json');
-    const hotelsData = JSON.parse(fs.readFileSync(hotelsFilePath, 'utf8'));
-    return hotelsData.hotels.find(hotel => hotel.id.toString() === id);
+    const response = await fetch(`/api/hotel/${id}`);
+    if (!response.ok) {
+        throw new Error('Ошибка при получении данных отеля');
+    }
+    return await response.json();
 }
 
-// Функция для генерации статических параметров
+// Генерация статических параметров
 export async function generateStaticParams() {
-    const hotelsFilePath = path.join(process.cwd(), 'public/database/hotels1.json');
-    const hotelsData = JSON.parse(fs.readFileSync(hotelsFilePath, 'utf8'));
+    // Здесь вы можете загрузить все доступные ID отелей из базы данных
+    try {
+        const response = await fetch('/api/hotel'); // Необходимо создать этот API маршрут для получения всех ID отелей
+        const hotels = await response.json();
 
-    return hotelsData.hotels.map((hotel) => ({
-        id: hotel.id.toString(),
-    }));
+        return hotels.map((hotel) => ({
+            id: hotel.id.toString(),
+        }));
+    } catch (error) {
+        console.error('Ошибка при получении ID отелей:', error);
+        return []; // Возвращаем пустой массив в случае ошибки
+    }
 }
-
 
 export default async function Page({ params  }) {
     const {id} = params;

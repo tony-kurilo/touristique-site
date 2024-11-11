@@ -11,8 +11,15 @@ const ProfilePage = () => {
     const [userData, setUserData] = useState(null);
 
     useEffect(() => {
-        // Проверяем, есть ли токен в localStorage (или в cookies)
-        const token = localStorage.getItem('authToken'); // Это имя может быть другим, в зависимости от того, как хранится токен
+        // Функция для получения значения куки по имени
+        const getCookie = (name) => {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        };
+
+        // Проверяем, есть ли токен в куках
+        const token = getCookie('jwt'); // Убедитесь, что имя куки совпадает с тем, что вы установили
 
         if (!token) {
             // Если токен не найден, показываем сообщение и перенаправляем на страницу авторизации
@@ -23,7 +30,7 @@ const ProfilePage = () => {
                 // Проверяем токен и извлекаем данные
                 const decoded = jwt.verify(token, secretKey);
                 setUserData(decoded); // Сохраняем данные пользователя из токена
-                setIsChecking(false);
+                setIsChecking(true);
             } catch (error) {
                 console.error('Ошибка проверки токена:', error);
                 // Если токен невалиден, перенаправляем на страницу авторизации
@@ -33,7 +40,14 @@ const ProfilePage = () => {
         }
     }, [router]);
 
-    if (isChecking) {
+    const handleLogout = () => {
+        // Удаляем токен из cookies
+        document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/'; // Устанавливаем истекшую дату
+        router.replace('/'); // Перенаправляем на страницу авторизации
+    };
+
+
+    if (isChecking === false) {
         return (
             <div>
                 <h1>Redirecting...</h1>
@@ -43,14 +57,16 @@ const ProfilePage = () => {
 
     return (
         <div>
-            <h1>Профиль пользователя</h1>
             {userData ? (
                 <div>
                     <p>Email: {userData.email}</p>
-                    {/* Вы можете добавить больше информации о пользователе, если это необходимо */}
+                    <p>Fuck you mate</p>
+                    <button onClick={handleLogout} className="text-red-500 hover:underline">
+                        Выйти
+                    </button>
                 </div>
             ) : (
-                <p>Данные профиля недоступны.</p>
+                <p></p>
             )}
         </div>
     );

@@ -55,6 +55,11 @@ const RegisterForm = () => {
             if (response.ok) {
                 const data = await response.json();
                 setMessage('Реєстрація успішна!');
+                // Сбросим форму после успешной регистрации
+                setUsername('');
+                setEmail('');
+                setPassword('');
+                setErrors({});
             } else {
                 const errorData = await response.json();
                 if (errorData.message === 'Користувач з таким e-mail вже існує') {

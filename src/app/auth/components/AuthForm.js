@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import Image from "next/image";
+import Cookies from 'js-cookie'; // Importing js-cookie
 
 const AuthForm = () => {
     const router = useRouter();
@@ -13,14 +14,15 @@ const AuthForm = () => {
     };
 
     useEffect(() => {
-        // Проверяем, есть ли токен в localStorage (или в cookies)
-        const token = localStorage.getItem('authToken'); // Это имя может быть другим, в зависимости от того, как хранится токен
+        // Check if token exists in cookies
+        const token = Cookies.get('authToken'); // Replace with the correct cookie name
 
         if (token) {
-            // Если пользователь уже залогинен, перенаправляем его на другую страницу (например, профиль)
-
+            // If user is already logged in, redirect to another page (e.g., profile)
+            router.push('/my-profile'); // Adjust this path as needed
         }
     }, [router]);
+
 
     return (
         <div className="relative min-h-screen bg-cover bg-center flex items-center justify-center"

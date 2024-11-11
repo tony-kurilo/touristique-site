@@ -138,7 +138,7 @@ export default function Page() {
                 {!status && (
                     <form onSubmit={sendMessage} className="">
                         <div  className="mb-4" >
-                            <h2 className="text-2xl font-bold text-center mb-4 text-gray-100">Зв'яжіться з нами</h2>
+                            <h2 className="text-2xl font-bold text-center mb-4 text-gray-100">Зв&apos;яжіться з нами</h2>
                         </div>
                         <div className="mb-4">
                             <label htmlFor="name" className="block text-gray-100">

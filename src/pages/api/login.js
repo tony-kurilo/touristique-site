@@ -26,7 +26,10 @@ export default async function handler(req, res) {
 
             const token = jwt.sign({ email: user.email }, secretKey, { expiresIn: '1h' });
 
-            res.status(200).json({ token });
+            // Отправляем токен в защищённом куки
+            res.setHeader('Set-Cookie', `jwt=${token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=3600`);
+            res.status(200).json({ message: 'Успешный вход в систему' });
+
         } catch (error) {
             console.error('Ошибка сервера:', error);
             res.status(500).json({ message: 'Ошибка сервера' });

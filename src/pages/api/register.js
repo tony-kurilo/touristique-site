@@ -1,6 +1,8 @@
 // register.js
 import bcrypt from 'bcrypt';
 import pool from '../../app/database/db'; // Убедитесь, что путь правильный
+import { serialize } from 'cookie'; // Импортируем пакет для работы с куками
+
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
@@ -22,6 +24,14 @@ export default async function handler(req, res) {
             const values = [username, email, hashedPassword];
 
             const result = await pool.query(query, values);
+
+            // Устанавливаем куку
+            res.setHeader('Set-Cookie', serialize('jwt', token, {
+                httpOnly: true, // кука недоступна из JS
+                secure: process.env.NODE_ENV === 'production', // Используйте secure в production
+                maxAge: 3600, // Время жизни в секундах
+                path: '/' // Доступна на всех путях
+            }));
 
             res.status(201).json({ message: 'Пользователь успешно зарегистрирован', userId: result.rows[0].id });
         } catch (error) {

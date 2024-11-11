@@ -90,7 +90,7 @@ export default function HotelSearch() {
 
         if (hotels.length === 0) {
             // Загружаем отели, если они еще не загружены
-            const hotelResponse = await fetch('/database/hotels.json');
+            const hotelResponse = await fetch('/api/searchHotel.js');
             const hotelData = await hotelResponse.json();
             setHotels(hotelData);
             // После загрузки данных выполняем фильтрацию
