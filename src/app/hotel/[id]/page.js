@@ -1,9 +1,11 @@
 import React from "react";
 import HotelData from "./components/HotelData";
 
+
 // Функция для получения данных отеля
 async function getHotelData(id) {
-    const response = await fetch(`/api/hotel/${id}`);
+    const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseURL}/api/hotel/${id}`);
     if (!response.ok) {
         throw new Error('Ошибка при получении данных отеля');
     }
@@ -14,8 +16,8 @@ async function getHotelData(id) {
 export async function generateStaticParams() {
     // Здесь вы можете загрузить все доступные ID отелей из базы данных
     try {
-        const response = await fetch('/api/hotel'); // Необходимо создать этот API маршрут для получения всех ID отелей
-        const hotels = await response.json();
+        const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+        const response = await fetch(`${baseURL}/api/hotels`);
 
         return hotels.map((hotel) => ({
             id: hotel.id.toString(),

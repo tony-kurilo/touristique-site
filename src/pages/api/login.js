@@ -1,5 +1,3 @@
-
-// src/app/api/login.js
 import pool from '@/app/database/db';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';

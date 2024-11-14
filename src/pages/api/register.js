@@ -1,8 +1,6 @@
-// register.js
 import bcrypt from 'bcrypt';
 import pool from '../../app/database/db'; // Убедитесь, что путь правильный
 import { serialize } from 'cookie'; // Импортируем пакет для работы с куками
-
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {

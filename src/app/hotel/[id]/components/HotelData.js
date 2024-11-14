@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import Footer from "../../../components/Footer";
 
 export default function HotelData ({ data  }) {
     const [hotel, setHotel] = useState(data);
@@ -29,39 +30,36 @@ export default function HotelData ({ data  }) {
     };
 
     const handleNextHotelImage = () => {
-        setCurrentImage((prev) => (prev + 1) % hotel.photos.length);
+        setCurrentImage((prev) => (prev + 1) % hotel.images.length);
     };
 
     const handlePrevHotelImage = () => {
-        setCurrentImage((prev) => (prev - 1 + hotel.photos.length) % hotel.photos.length);
+        setCurrentImage((prev) => (prev - 1 + hotel.images.length) % hotel.images.length);
     };
 
     const handleNextRoomImage = () => {
-        setRoomCurrentImage((prev) => (prev + 1) % selectedRoomType.photos.length);
+        setRoomCurrentImage((prev) => (prev + 1) % selectedRoomType.images.length);
     };
 
     const handlePrevRoomImage = () => {
-        setRoomCurrentImage((prev) => (prev - 1 + selectedRoomType.photos.length) % selectedRoomType.photos.length);
+        setRoomCurrentImage((prev) => (prev - 1 + selectedRoomType.images.length) % selectedRoomType.images.length);
     };
 
     useEffect(() => {
         const fetchRoomData = async () => {
-            const response = await fetch('/database/rooms.json');
-            const data = await response.json();
-            setRoomData(data.rooms); // Загружаем все комнаты
+            try {
+                const response = await fetch(`/api/rooms?hotel_id=${hotel.id}`);
+                const data = await response.json();
+                setRoomData(data.rooms); // Загружаем комнаты для конкретного отеля
+                setFilteredRooms(data.rooms); // Обновляем filteredRooms
+                setSelectedRoomType(data.rooms[0]); // Устанавливаем выбранный номер по умолчанию
+            } catch (error) {
+                console.error("Ошибка при получении данных комнат:", error);
+            }
         };
 
         fetchRoomData();
-    }, []);
-
-    // Фильтрация комнат по hotelId
-    useEffect(() => {
-        if (hotel && roomData.length > 0) {
-            const hotelRooms = roomData.filter(room => room.hotelId === hotel.id); // Фильтрация по hotelId
-            setFilteredRooms(hotelRooms);
-            setSelectedRoomType(hotelRooms[0]); // Выбор первой комнаты
-        }
-    }, [hotel, roomData]);
+    }, [hotel.id]);
 
     const handleChange = (event) => {
         const value = parseInt(event.target.value, 10); // Преобразуем значение в число
@@ -69,6 +67,7 @@ export default function HotelData ({ data  }) {
         setSelectedRoomType(selected);
         setRoomCurrentImage(0);
     };
+
     // Функция для обработки нажатий на кнопки инфраструктуры
     const handleButtonClick = (buttonName) => {
         setSelectedButton(buttonName);
@@ -163,7 +162,7 @@ export default function HotelData ({ data  }) {
             </div>
             <div className={"relative flex items-left mt-4 mb-10 text-2xl"}>
                 <p className={"relative left-96"}>{hotel.address + ", " + hotel.country}</p>
-                <p className={"absolute right-96"}>{hotel.reviewScore}</p>
+                <p className={"absolute right-96"}>{hotel.review_score}</p>
             </div>
             <div
                 className="flex items-center justify-center mx-auto py-4 bg-neutral-800 relative h-[700px] w-[1920px]">
@@ -175,7 +174,7 @@ export default function HotelData ({ data  }) {
                 </button>
                 <div className="relative w-full h-full flex justify-center items-center">
                     <Image
-                        src={hotel.photos[currentImage]}
+                        src={hotel.images[currentImage]}
                         alt="Hotel"
                         width={1920}
                         height={809}
@@ -204,11 +203,11 @@ export default function HotelData ({ data  }) {
                         </thead>
                         <tbody>
                         <tr>
-                            <td className="border border-gray-300 px-4 py-2 text-center">{hotel.yearBuilt}</td>
-                            <td className="border border-gray-300 px-4 py-2 text-center">{hotel.yearRenovated}</td>
-                            <td className="border border-gray-300 px-4 py-2 text-center">{hotel.roomCount}</td>
-                            <td className="border border-gray-300 px-4 py-2 text-center">{hotel.checkIn}</td>
-                            <td className="border border-gray-300 px-4 py-2 text-center">{hotel.checkOut}</td>
+                            <td className="border border-gray-300 px-4 py-2 text-center">{hotel.year_built}</td>
+                            <td className="border border-gray-300 px-4 py-2 text-center">{hotel.year_renovated}</td>
+                            <td className="border border-gray-300 px-4 py-2 text-center">{hotel.room_count}</td>
+                            <td className="border border-gray-300 px-4 py-2 text-center">{hotel.check_in}</td>
+                            <td className="border border-gray-300 px-4 py-2 text-center">{hotel.check_out}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -227,7 +226,7 @@ export default function HotelData ({ data  }) {
                 {selectedRoomType && (
                     <div className={"relative flex justify-center items-center mt-8"}>
                         <div className="relative group max-w-4xl mr-7">
-                            <Image src={selectedRoomType.photos[roomCurrentImage]} width={"504"} height={"338"}
+                            <Image src={selectedRoomType.images[roomCurrentImage]} width={"504"} height={"338"}
                                    className="max-h-[300px] object-cover "
                                    onClick={openModal}></Image>
                             <button
@@ -243,9 +242,9 @@ export default function HotelData ({ data  }) {
                             </button>
                         </div>
                         <div className={"ml-7 mr-7"}>
-                            <p className={"text-lg mb-5"}>площа номеру: {selectedRoomType.roomSize} кв.м</p>
+                            <p className={"text-lg mb-5"}>площа номеру: {selectedRoomType.room_size} кв.м</p>
                             <p className={"text-lg mb-10"}>максимальна кількість гостей у
-                                номері: {selectedRoomType.maxOccupancy}</p>
+                                номері: {selectedRoomType.max_occupancy}</p>
                             <h1 className={"relative flex items-center justify-center text-xl mb-5"}>Опції</h1>
                             <div className={"relative flex"}>
                                 <ul className={"list-disc pl-5 text-lg"}>
@@ -274,7 +273,7 @@ export default function HotelData ({ data  }) {
                                         Х
                                     </button>
                                     <Image
-                                        src={selectedRoomType.photos[roomCurrentImage]}
+                                        src={selectedRoomType.images[roomCurrentImage]}
                                         width={600} // Задайте желаемую ширину для большой версии
                                         height={350} // Задайте желаемую высоту для большой версии
                                         className="object-cover" // Используйте object-cover, чтобы сохранить пропорции
@@ -319,7 +318,7 @@ export default function HotelData ({ data  }) {
             <hr className="border-t-1 border-gray-500 mx-80 my-12"/>
             <div>
                 <h1 className={"relative left-96 text-2xl"}>Місцерозташування</h1>
-                <div className="flex justify-center items-center mt-8">
+                <div className="flex justify-center items-center mt-8 mb-10">
                     <MapContainer center={position} zoom={15} style={{ height: '600px', width: '1000px' }}>
                         <TileLayer
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -331,10 +330,10 @@ export default function HotelData ({ data  }) {
                             </Popup>
                         </Marker>
                     </MapContainer>
-
                 </div>
             </div>
         </main>
+            <Footer></Footer>
         </div>
     );
 };

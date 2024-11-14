@@ -1,25 +1,28 @@
-import pool from '../../../app/database/db'; // Убедитесь, что путь правильный
+import pool from '../../../app/database/db';
 
 export default async function handler(req, res) {
-    const { id } = req.query; // Получаем id отеля из параметров запроса
+    const { id } = req.query;
 
     if (req.method === 'GET') {
+        let client;
         try {
-            // Выполняем запрос к базе данных
-            const hotelQuery = 'SELECT * FROM hotels WHERE id = $1';
-            const hotelResult = await pool.query(hotelQuery, [id]);
+            client = await pool.connect();
 
-            if (hotelResult.rows.length > 0) {
-                return res.status(200).json(hotelResult.rows[0]); // Возвращаем данные отеля
-            } else {
-                return res.status(404).json({ message: 'Отель не знайдено!' });
+            // Выполняем запрос для получения данных отеля по ID
+            const result = await client.query('SELECT * FROM hotels WHERE id = $1', [id]);
+
+            if (result.rows.length === 0) {
+                return res.status(404).json({ error: 'Отель не найден' });
             }
+
+            res.status(200).json(result.rows[0]); // Возвращаем данные отеля
         } catch (error) {
-            console.error('Ошибка при запросе к базе данных:', error);
-            return res.status(500).json({ message: 'Ошибка сервера' });
+            console.error('Ошибка при получении данных отеля:', error);
+            res.status(500).json({ error: 'Ошибка при получении данных в файле api/hotels/[id].js' });
+        } finally {
+            if (client) client.release();
         }
     } else {
-        res.setHeader('Allow', ['GET']);
-        return res.status(405).json({ message: 'Метод не разрешен' });
+        res.status(405).json({ error: 'Метод не разрешен' });
     }
 }

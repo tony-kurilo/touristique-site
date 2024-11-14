@@ -10,7 +10,7 @@ export default function HotelSearch() {
     const searchParams = useSearchParams();
 
     const [currency, setCurrency] = useState('UAH');
-    const [hotels, setHotels] = useState([]);
+    const [vouchers, setVouchers] = useState([]);
     const [country, setCountry] = useState('');
     const [city, setCity] = useState('');
     const [priceFrom, setPriceFrom] = useState('');
@@ -23,7 +23,7 @@ export default function HotelSearch() {
     const [nightsTo, setNightsTo] = useState('');
     const [searchResults, setSearchResults] = useState([]);
 
-    const [visibleHotels, setVisibleHotels] = useState(8); // Количество отелей, которые отображаются
+    const [visibleVouchers, setVisibleVouchers] = useState(8);
     const [loading, setLoading] = useState(false);
 
     const [roomType, setRoomType] = useState('Стандарт');
@@ -38,36 +38,67 @@ export default function HotelSearch() {
         return Math.round(price * currencyRates[currency]);
     };
 
-    // Загружаем данные из JSON файла при монтировании компонента
+    // Функция для вычисления стоимости с учетом количества ночей
+    const calculatePrice = (voucher) => {
+        let price = voucher.price_per_night;
+
+        // Если указано количество ночей
+        if (nightsFrom || nightsTo) {
+            const nights = nightsFrom || nightsTo;  // Используем значение nightsFrom или nightsTo
+            price = voucher.price_per_night * nights;
+        }
+
+        // Возвращаем цену в нужной валюте
+        return convertPrice(price, currency);
+    };
     useEffect(() => {
-        const hasSearchParams = searchParams.has('country') || searchParams.has('city')
-            || searchParams.has('priceFrom') || searchParams.has('priceTo') || searchParams.has('adults')
-            || searchParams.has('children')|| searchParams.has('dateFrom')|| searchParams.has('dateTo')
-            || searchParams.has('nightsFrom')|| searchParams.has('nightsTo');
+        const roomTypeFromURL = searchParams.get('roomType'); // Получаем roomType из URL
+        if (roomTypeFromURL) {
+            setRoomType(roomTypeFromURL); // Если есть, устанавливаем значение roomType
+        }
+
+        const hasSearchParams = searchParams.has('country') ||
+            searchParams.has('city') || searchParams.has('priceFrom') ||
+            searchParams.has('priceTo') || searchParams.has('adults') ||
+            searchParams.has('children') || searchParams.has('dateFrom') ||
+            searchParams.has('dateTo') || searchParams.has('nightsFrom') ||
+            searchParams.has('nightsTo');
 
         if (hasSearchParams) {
-            const fetchHotels = async () => {
-                const response = await fetch('/database/hotels.json');
-                const data = await response.json();
-                setHotels(data);
-            };
-
-            fetchHotels();
+            fetchVouchers();
         }
     }, [searchParams]);
 
+    const fetchVouchers = async () => {
+        try {
+            const queryParams = new URLSearchParams();
+            if (country) queryParams.append('country', country);
+            if (city) queryParams.append('city', city);
+            if (priceFrom) queryParams.append('priceFrom', priceFrom);
+            if (priceTo) queryParams.append('priceTo', priceTo);
+            if (adults) queryParams.append('adults', adults);
+            if (children) queryParams.append('children', children);
+            if (dateFrom) queryParams.append('dateFrom', dateFrom);
+            if (dateTo) queryParams.append('dateTo', dateTo);
+            if (nightsFrom) queryParams.append('nightsFrom', nightsFrom);
+            if (nightsTo) queryParams.append('nightsTo', nightsTo);
 
-    // Восстановление параметров и результатов при загрузке страницы
+            const response = await fetch(`/api/searchHotel?${queryParams.toString()}`);
+            const data = await response.json();
+            setVouchers(data);
+            setSearchResults(data);
+        } catch (error) {
+            console.error('Ошибка при загрузке данных:', error);
+        }
+    };
+
     useEffect(() => {
-        // Проверяем наличие сохраненных данных
-        const savedSearchPageUrl = localStorage.getItem('searchPageUrl');
-        const savedVisibleHotels = localStorage.getItem('visibleHotels');
         const savedSearchResults = localStorage.getItem('searchResults');
         const savedSearchParams = localStorage.getItem('searchParams');
 
-        if (savedSearchPageUrl && savedSearchResults && savedSearchParams && searchParams.toString()) {
+        if (savedSearchResults && savedSearchParams && searchParams.toString()) {
             setSearchResults(JSON.parse(savedSearchResults));
-            setVisibleHotels(Number(savedVisibleHotels) || 8);
+            setVisibleVouchers(8);
 
             const params = JSON.parse(savedSearchParams);
             setCountry(params.country || '');
@@ -84,68 +115,29 @@ export default function HotelSearch() {
     }, [searchParams]);
 
     const handleSearch = async () => {
-        localStorage.removeItem('searchPageUrl'); // Очищаем URL поиска
-        localStorage.removeItem('visibleHotels'); // Очищаем количество отелей
-        localStorage.removeItem('searchResults'); // Очищаем результаты поиска
-
-        if (hotels.length === 0) {
-            // Загружаем отели, если они еще не загружены
-            const hotelResponse = await fetch('/api/searchHotel.js');
-            const hotelData = await hotelResponse.json();
-            setHotels(hotelData);
-            // После загрузки данных выполняем фильтрацию
-            filterHotels(hotelData);
-        } else {
-            // Если данные уже загружены, сразу выполняем фильтрацию
-            filterHotels(hotels);
+        // Проверяем, если количество ночей указано, но начальная дата не указана
+        if (nightsFrom && !dateFrom) {
+            alert('Будь ласка, введіть початкову дату!');
+            return;
         }
+
+        // Прочие проверки, если нужно
+        if (nightsFrom && (isNaN(nightsFrom) || nightsFrom <= 0)) {
+            alert('Будь ласка, введіть правильну кількість ночей!');
+            return;
+        }
+
+
+        // Очистка предыдущих данных
+        localStorage.removeItem('searchPageUrl');
+        localStorage.removeItem('visibleHotels');
+        localStorage.removeItem('searchResults');
+
+        // Выполнение поиска
+        fetchVouchers();
     };
 
-    const filterHotels = (hotelData) => {
-        const filteredHotels = hotelData.filter(hotel => {
-            const departureDateFrom = dateFrom ? new Date(dateFrom) : null;
-            const departureDateTo = dateTo ? new Date(dateTo) : null;
-
-            const hotelDepartureDateFrom = new Date(hotel.dateFrom);
-            const hotelDepartureDateTo = new Date(hotel.dateTo);
-
-            const hotelReturnDate = departureDateFrom ? new Date(departureDateFrom) : null;
-            if (hotelReturnDate && nightsFrom) {
-                hotelReturnDate.setDate(hotelReturnDate.getDate() + Number(nightsFrom));
-            }
-            return (
-                (country ? hotel.country.toLowerCase() === country.toLowerCase() : true) &&
-                (city ? hotel.city.toLowerCase() === city.toLowerCase() : true) &&
-                (priceFrom ? hotel.price >= Number(priceFrom) : true) &&
-                (priceTo ? hotel.price <= Number(priceTo) : true) &&
-                (adults ? hotel.adults === Number(adults) : true) &&
-                (children ? hotel.children === Number(children) : true) &&
-                (!departureDateFrom || hotelDepartureDateFrom <= departureDateFrom) &&
-                (!departureDateTo || hotelDepartureDateTo >= departureDateTo) &&
-                (!nightsFrom || hotelDepartureDateTo >= hotelReturnDate) &&
-                (!nightsTo || hotelDepartureDateFrom <= new Date(hotelDepartureDateFrom.getTime() + nightsTo * 86400000))
-            );
-        });
-
-        setSearchResults(filteredHotels);
-        setVisibleHotels(8);
-
-        // Сохраняем результаты поиска и параметры в localStorage
-        localStorage.setItem('searchResults', JSON.stringify(filteredHotels));
-        localStorage.setItem('searchParams', JSON.stringify({
-            country,
-            city,
-            priceFrom,
-            priceTo,
-            adults,
-            children,
-            dateFrom,
-            dateTo,
-            nightsFrom,
-            nightsTo,
-        }));
-
-        // Обновляем URL
+    const updateURLWithSearchParams = () => {
         const queryParams = new URLSearchParams({
             country,
             city,
@@ -156,34 +148,53 @@ export default function HotelSearch() {
             dateFrom,
             dateTo,
             nightsFrom,
-            nightsTo
+            nightsTo,
+            roomType
         });
 
         for (const [key, value] of queryParams.entries()) {
-            if (!value) {
-                queryParams.delete(key);
-            }
+            if (!value) queryParams.delete(key);
         }
 
         router.replace(`?${queryParams.toString()}`, { shallow: true });
     };
 
+    useEffect(() => {
+        if (searchResults) {
+            localStorage.setItem('searchResults', JSON.stringify(searchResults));
+            localStorage.setItem('searchParams', JSON.stringify({
+                country,
+                city,
+                priceFrom,
+                priceTo,
+                adults,
+                children,
+                dateFrom,
+                dateTo,
+                nightsFrom,
+                nightsTo,
+                roomType
+            }));
+        }
+    }, [searchResults]);
+
     // Функция перенаправления на страницу отеля
-    const handleRedirect = (hotelId) => {
+    const handleRedirect = (voucher) => {
         const currentUrl = window.location.href; // Получаем текущий URL
-        localStorage.setItem('searchPageUrl', currentUrl); // Сохраняем URL в localStorage
-        localStorage.setItem('visibleHotels', visibleHotels); // Сохраняем количество видимых отелей
-        localStorage.setItem('searchResults', JSON.stringify(searchResults)); // Сохраняем результаты поиска
-        router.push(`/hotel/${hotelId}`); // Перенаправляем на страницу отеля
+        localStorage.setItem('searchPageUrl', currentUrl);
+        localStorage.setItem('visibleVouchers', visibleVouchers);
+        localStorage.setItem('searchResults', JSON.stringify(searchResults));
+
+        // Используем hotel_id из объекта voucher для перенаправления
+        router.push(`/hotel/${voucher.hotel_id}`);
     };
 
-    // Функция загрузки дополнительных отелей
-    const loadMoreHotels = () => {
+    const loadMoreVouchers = () => {
         setLoading(true);
         setTimeout(() => {
-            setVisibleHotels(prevVisible => prevVisible + 8); // Увеличиваем количество отображаемых отелей
+            setVisibleVouchers(prevVisible => prevVisible + 8);
             setLoading(false);
-        }, 1000); // Имитация задержки для демонстрации загрузки
+        }, 1000);
     };
 
     return (
@@ -220,6 +231,7 @@ export default function HotelSearch() {
                             onChange={(e) => setDateFrom(e.target.value)}
                             id={"DepartureFromInput"}
                         />
+                        {nightsFrom && !dateFrom && <span className="text-red-500 ml-2">Введіть дату</span>}
                     </div>
                     <div className={"flex items-center ml-5"}>
                         <p className={"mr-4 w-20 text-right leading-tight break-words"}>ночей від</p>
@@ -229,6 +241,7 @@ export default function HotelSearch() {
                             value={nightsFrom}
                             onChange={(e) => setNightsFrom(e.target.value)}
                             id={"NightsFromInput"}
+                            min="0"
                         />
                     </div>
                 </div>
@@ -241,6 +254,7 @@ export default function HotelSearch() {
                             placeholder={"0"}
                             onChange={(e) => setAdults(e.target.value)}
                             id={"AdultsInput"}
+                            min="1"
                         />
                     </div>
                     <div className={"flex items-center ml-5"}>
@@ -251,6 +265,7 @@ export default function HotelSearch() {
                             placeholder={"0"}
                             onChange={(e) => setPriceFrom(e.target.value)}
                             id={"PriceFromInput"}
+                            min="0"
                         />
                     </div>
                 </div>
@@ -264,6 +279,7 @@ export default function HotelSearch() {
                             value={dateTo}
                             onChange={(e) => setDateTo(e.target.value)}
                             id={"DepartureToInput"}
+                            min="0"
                         />
                     </div>
                     <div className={"flex items-center ml-5"}>
@@ -273,6 +289,7 @@ export default function HotelSearch() {
                             value={nightsTo}
                             onChange={(e) => setNightsTo(e.target.value)}
                             id={"nightsToInput"}
+                            min="0"
                         />
                     </div>
                 </div>
@@ -285,6 +302,7 @@ export default function HotelSearch() {
                             placeholder={"0"}
                             onChange={(e) => setChildren(e.target.value)}
                             id={"childrenInput"}
+                            min="0"
                         />
                     </div>
                     <div className={"flex items-center ml-5"}>
@@ -294,6 +312,7 @@ export default function HotelSearch() {
                             value={priceTo}
                             onChange={(e) => setPriceTo(e.target.value)}
                             id={"priceToInput"}
+                            min="0"
                         />
                     </div>
                 </div>
@@ -325,31 +344,33 @@ export default function HotelSearch() {
                 <button onClick={handleSearch} id={"submitButton"}>Пошук</button>
             </div>
             <div className="mt-8">
-                {searchResults.slice(0, visibleHotels).map((hotel, index)  => (
+                {Array.isArray(searchResults) && searchResults.slice(0, visibleVouchers).map((voucher, index) => (
                         <div key={index} className=" p-4 mt-2 mb-7 flex items-center border rounded-md cursor-pointer shadow-md" id={"hotelDiv"}
-                             onClick={() => handleRedirect(parseInt(hotel.id))}>
+                             onClick={() => handleRedirect(voucher)}>
                             <div className={"mr-10"}>
-                                <Image src={hotel.image} width={"510"} height={"333"} className={"border rounded cursor-pointer"}></Image>
+                                {voucher.hotel_image && (
+                                    <Image src={voucher.hotel_image} width={510} height={333} className={"border rounded cursor-pointer"} />
+                                )}
                             </div>
                             <div className={""}>
-                                <h2 className={"text-3xl mb-1 geologica-300"} onClick={(e) => e.stopPropagation()}>{hotel.name}</h2>
-                                <p className={"mb-10"} onClick={(e) => e.stopPropagation()}>Оцінка</p>
-                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Адреса</p>
-                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Виліт від: {hotel.dateFrom}</p>
-                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Ночей: 4 </p>
-                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Тур закінчується: 2024-09-05 </p>
-                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Тип номеру: Люкс двомісний</p>
-                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Тип харчування: all-inclusive</p>
+                                <h2 className={"text-3xl mb-1 geologica-300"} onClick={(e) => e.stopPropagation()}>{voucher.hotel_name}</h2>
+                                <p className={"mb-10"} onClick={(e) => e.stopPropagation()}>{voucher.rating}</p>
+                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>{voucher.hotel_address}</p>
+                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>{voucher.date_from} </p>
+                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Ночей: </p>
+                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Тур закінчується: </p>
+                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Тип номеру: {voucher.room_type} </p>
+                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Тип харчування: </p>
                             </div>
                             <div className={"ml-72 mr-2 relative"}>
-                                <p className={"text-xl mb-64"} onClick={(e) => e.stopPropagation()}>{convertPrice(hotel.price, currency)} {currency}</p>
+                                <p className={"text-xl mb-64"} onClick={(e) => e.stopPropagation()}>{nightsFrom || nightsTo ? `від ${calculatePrice(voucher)} ${currency}` : `від ${convertPrice(voucher.price_per_night, currency)} ${currency}`}</p>
                                 <button id={"submitButton"} onClick={(e) => e.stopPropagation()}>Додати</button>
                             </div>
                         </div>
                 ))}
             </div>
-            {visibleHotels < searchResults.length && (
-                <button onClick={loadMoreHotels} className="mt-4" disabled={loading} id={"loadingButton"}>
+            {visibleVouchers < searchResults.length && (
+                <button onClick={loadMoreVouchers} className="mt-4" disabled={loading} id={"loadingButton"}>
                     {loading ? "Завантаження..." : "Завантажити ще"}
                 </button>
             )}
