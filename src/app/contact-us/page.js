@@ -3,7 +3,6 @@
 import Image from "next/image";
 import React, {useEffect, useState} from "react";
 import "../styles/globals.css";
-import Footer from "../components/Footer";
 
 export default function Page() {
     const [name, setName] = useState("");
@@ -54,7 +53,7 @@ export default function Page() {
         const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
         try {
-            const response = await fetch('/api/contact', { // Make sure this matches your backend route
+            const response = await fetch('/api/contact-us', { // Make sure this matches your backend route
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
