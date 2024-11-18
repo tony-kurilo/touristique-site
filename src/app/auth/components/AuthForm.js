@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import Image from "next/image";
-import Cookies from 'js-cookie'; // Importing js-cookie
+
 
 const AuthForm = () => {
     const router = useRouter();
@@ -14,14 +14,15 @@ const AuthForm = () => {
     };
 
     useEffect(() => {
-        // Check if token exists in cookies
-        const token = Cookies.get('authToken'); // Replace with the correct cookie name
+        // Check if token exists in localStorage
+        const token = localStorage.getItem('jwt'); // Check for JWT in localStorage
 
         if (token) {
-            // If user is already logged in, redirect to another page (e.g., profile)
+            // If user is already logged in, redirect to profile page
             router.push('/my-profile'); // Adjust this path as needed
         }
-    }, [router]);
+
+        }, [router]);
 
 
     return (
@@ -57,27 +58,27 @@ const AuthForm = () => {
             </div>
 
             {/* Центрированная форма */}
-            <div className="relative z-10 bg-neutral-700 p-6 rounded-lg shadow-md w-full max-w-md geologica-200">
-                <h2 className="text-2xl font-bold text-center mb-4 text-gray-100">
-                    {isLoginForm ? 'Вхід' : 'Реєстрація'}
-                </h2>
+                <div className="relative z-10 bg-neutral-700 p-6 rounded-lg shadow-md w-full max-w-md geologica-200">
+                    <h2 className="text-2xl font-bold text-center mb-4 text-gray-100">
+                        {isLoginForm ? 'Вхід' : 'Реєстрація'}
+                    </h2>
 
-                {/* Условный рендеринг: форма входа или регистрация */}
-                {isLoginForm ? <LoginForm/> : <RegisterForm/>}
+                    {/* Условный рендеринг: форма входа или регистрация */}
+                    {isLoginForm ? <LoginForm/> : <RegisterForm/>}
 
-                {/* Кнопка переключения между формами */}
-                <div className="text-center mt-4">
-                    <button
-                        onClick={toggleForm}
-                        className="text-red-500 hover:underline"
-                    >
-                        {isLoginForm ? 'Немає аккаунта? Зареєструватися' : 'Вже є аккаунт? Увійти'}
-                    </button>
+                    {/* Кнопка переключения между формами */}
+                    <div className="text-center mt-4">
+                        <button
+                            onClick={toggleForm}
+                            className="text-red-500 hover:underline"
+                        >
+                            {isLoginForm ? 'Немає аккаунта? Зареєструватися' : 'Вже є аккаунт? Увійти'}
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
 
-};
+    };
 
 export default AuthForm;

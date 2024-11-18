@@ -8,23 +8,35 @@ const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState(''); // Для отображения ошибки
+    const [loading, setLoading] = useState(false); // Состояние загрузки
     const router = useRouter(); // Инициализация useRouter
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setErrorMessage(''); // Сбрасываем ошибки перед запросом
         try {
-            const response = await fetch('/api/login', {
+            const response = await fetch('http://localhost:3000/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'credentials': 'include', // Включаем куки в запрос
                 },
                 body: JSON.stringify({ email, password }),
             });
 
             if (response.ok) {
-                console.log('Успешный вход!');
-                router.push('/my-profile'); // Перенаправляем на личный кабинет
+                const data = await response.json();
+                const token = data.token;  // Получаем токен из ответа
+
+                if (!token) {
+                    setErrorMessage('Ошибка: токен не получен');
+                    return;
+                }
+
+                // Сохраняем токен в localStorage (или sessionStorage)
+                localStorage.setItem('jwt', token);
+
+                router.push('/my-profile');  // Перенаправляем на личный кабинет
             } else {
                 const errorData = await response.json();
                 setErrorMessage(errorData.message || 'Ошибка входа');
@@ -32,6 +44,8 @@ const LoginForm = () => {
         } catch (error) {
             console.error('Ошибка:', error);
             setErrorMessage('Ошибка сервера, попробуйте позже.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -65,17 +79,20 @@ const LoginForm = () => {
                 />
             </div>
 
-            {errorMessage  && (
+            {errorMessage && (
                 <div className="mb-4 text-red-500">
-                    {errorMessage }
+                    {errorMessage}
                 </div>
             )}
 
             <button
                 type="submit"
-                className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-700"
+                className={`w-full text-white py-2 rounded-lg ${
+                    loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-500 hover:bg-red-700'
+                }`}
+                disabled={loading}
             >
-                Підтвердити
+                {loading ? 'Загрузка...' : 'Підтвердити'}
             </button>
         </form>
     );

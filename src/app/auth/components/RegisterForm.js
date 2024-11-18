@@ -1,45 +1,50 @@
 import React, { useState } from 'react';
+import {useRouter} from "next/navigation";
 
 const RegisterForm = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
     const [showPassword, setShowPassword] = useState(false); // для отображения пароля
-    const [message, setMessage] = useState('');
-    const [errors, setErrors] = useState({});
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
     const validateForm = () => {
-        const newErrors = {};
-
         if (!username) {
-            newErrors.username = 'Логін обов&apos;язковий';
+            return 'Логін обов’язковий';
         }
-
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email) {
-            newErrors.email = 'E-mail обов&apos;язковий';
-        } else if (!emailPattern.test(email)) {
-            newErrors.email = 'Введіть корректний e-mail';
+            return 'E-mail обов’язковий';
         }
-
+        if (!emailPattern.test(email)) {
+            return 'Введіть коректний e-mail';
+        }
         if (!password) {
-            newErrors.password = 'Пароль обов&apos;язковий';
-        } else if (password.length < 6) {
-            newErrors.password = 'Пароль повинен бути не менше 6 символів';
+            return 'Пароль обов’язковий';
         }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+        if (password.length < 6) {
+            return 'Пароль повинен бути не менше 6 символів';
+        }
+        return null;
     };
 
     const handleRegister = async (e) => {
         e.preventDefault();
+        setErrorMessage('');
+        setSuccessMessage('');
+        setLoading(true);
 
-        if (!validateForm()) {
+        const validationError = validateForm();
+        if (validationError) {
+            setErrorMessage(validationError);
+            setLoading(false);
             return;
         }
 
@@ -54,23 +59,24 @@ const RegisterForm = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                setMessage('Реєстрація успішна!');
-                // Сбросим форму после успешной регистрации
-                setUsername('');
-                setEmail('');
-                setPassword('');
-                setErrors({});
+                setSuccessMessage('Реєстрація успішна! Перенаправлення...');
+
+                // Сохраняем токен в localStorage
+                if (data.token) {
+                    localStorage.setItem('jwt', data.token); // Сохраняем токен в localStorage
+                }
+
+                // Перенаправляем пользователя на страницу профиля
+                setTimeout(() => router.push('/my-profile'), 2000);
             } else {
                 const errorData = await response.json();
-                if (errorData.message === 'Користувач з таким e-mail вже існує') {
-                    setErrors({ email: errorData.message });
-                } else {
-                    setMessage('Помилка реєстрації: ' + errorData.message);
-                }
+                setErrorMessage(errorData.message || 'Помилка реєстрації.');
             }
         } catch (error) {
-            console.error('Помилка реєстрації: ', error);
-            setMessage('Помилка сервера, спробуйте пізніше');
+            console.error('Помилка реєстрації:', error);
+            setErrorMessage('Серверна помилка, спробуйте пізніше.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -78,9 +84,7 @@ const RegisterForm = () => {
     return (
         <form onSubmit={handleRegister}>
             <div className="mb-4">
-                <label htmlFor="username" className="block text-gray-100">
-                    Ім&apos;я користувача
-                </label>
+                <label htmlFor="username" className="block text-gray-100">Ім'я користувача</label>
                 <input
                     type="text"
                     id="username"
@@ -89,12 +93,9 @@ const RegisterForm = () => {
                     className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                 />
-                {errors.username && <p className="text-red-500">{errors.username}</p>}
             </div>
             <div className="mb-4">
-                <label htmlFor="email" className="block text-gray-100">
-                    Email
-                </label>
+                <label htmlFor="email" className="block text-gray-100">Email</label>
                 <input
                     type="email"
                     id="email"
@@ -103,12 +104,9 @@ const RegisterForm = () => {
                     className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                 />
-                {errors.email && <p className="text-red-500">{errors.email}</p>}
             </div>
-            <div className="mb-4">
-                <label htmlFor="password" className="block text-gray-100">
-                    Пароль
-                </label>
+            <div className="mb-4 relative">
+                <label htmlFor="password" className="block text-gray-100">Пароль</label>
                 <input
                     type={showPassword ? 'text' : 'password'}
                     id="password"
@@ -120,19 +118,22 @@ const RegisterForm = () => {
                 <button
                     type="button"
                     onClick={togglePasswordVisibility}
-                    className="relative -top-10 left-72 px-7 py-2 text-gray-600 hover:text-gray-800 focus:outline-none"
+                    className="absolute right-3 top-3 text-sm text-gray-600"
                 >
-                    {showPassword ? 'Закрити' : 'Показати'}
+                    {showPassword ? 'Скрыть' : 'Показать'}
                 </button>
-                {errors.password && <p className="text-red-500">{errors.password}</p>}
             </div>
+
+            {errorMessage && <div className="mb-4 text-red-500">{errorMessage}</div>}
+            {successMessage && <div className="mb-4 text-green-500">{successMessage}</div>}
+
             <button
                 type="submit"
-                className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-700"
+                className={`w-full py-2 rounded-lg text-white ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-500 hover:bg-red-700'}`}
+                disabled={loading}
             >
-                Зареєструватися
+                {loading ? 'Завантаження...' : 'Зареєструватися'}
             </button>
-            {message && <p className="mt-4 text-green-500">{message}</p>}
         </form>
     );
 };

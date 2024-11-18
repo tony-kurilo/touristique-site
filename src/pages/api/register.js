@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
-import pool from '../../app/database/db'; // Убедитесь, что путь правильный
-import { serialize } from 'cookie'; // Импортируем пакет для работы с куками
+import pool from '../../app/database/db';
+import jwt from 'jsonwebtoken';
+
+const secretKey = 'your_secret_key'; // Секретный ключ для JWT
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
@@ -8,35 +10,32 @@ export default async function handler(req, res) {
 
         try {
             // Проверяем, существует ли пользователь с таким email
-            const emailCheckQuery = `SELECT id FROM users WHERE email = $1`;
-            const emailCheckResult = await pool.query(emailCheckQuery, [email]);
-
+            const emailCheckResult = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
             if (emailCheckResult.rows.length > 0) {
-                // Если существует, возвращаем ошибку
                 return res.status(400).json({ message: 'Користувач з таким e-mail вже існує' });
             }
 
+            // Хэшируем пароль
             const hashedPassword = await bcrypt.hash(password, 10);
 
-            const query = `INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id;`;
-            const values = [username, email, hashedPassword];
+            // Добавляем пользователя в базу данных
+            const result = await pool.query(
+                'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id',
+                [username, email, hashedPassword]
+            );
 
-            const result = await pool.query(query, values);
+            const userId = result.rows[0].id;
 
-            // Устанавливаем куку
-            res.setHeader('Set-Cookie', serialize('jwt', token, {
-                httpOnly: true, // кука недоступна из JS
-                secure: process.env.NODE_ENV === 'production', // Используйте secure в production
-                maxAge: 3600, // Время жизни в секундах
-                path: '/' // Доступна на всех путях
-            }));
+            // Генерируем JWT токен
+            const token = jwt.sign({ id: userId, username, email }, secretKey, { expiresIn: '1h' });
 
-            res.status(201).json({ message: 'Пользователь успешно зарегистрирован', userId: result.rows[0].id });
+            // Отправляем токен клиенту
+            res.status(201).json({ message: 'Реєстрація успішна', token });
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: 'Ошибка сервера' });
+            console.error('Ошибка регистрации:', error);
+            res.status(500).json({ message: 'Серверна помилка' });
         }
     } else {
-        res.status(405).json({ message: 'Method Not Allowed' });
+        res.status(405).json({ message: 'Метод не дозволено' });
     }
 }
