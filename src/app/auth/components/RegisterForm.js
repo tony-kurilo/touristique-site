@@ -61,9 +61,10 @@ const RegisterForm = () => {
                 const data = await response.json();
                 setSuccessMessage('Реєстрація успішна! Перенаправлення...');
 
-                // Сохраняем токен в localStorage
-                if (data.token) {
-                    localStorage.setItem('jwt', data.token); // Сохраняем токен в localStorage
+                // Сохраняем токены в localStorage
+                if (data.accessToken && data.refreshToken) {
+                    localStorage.setItem('accessToken', data.accessToken); // Сохраняем accessToken в localStorage
+                    localStorage.setItem('refreshToken', data.refreshToken); // Сохраняем refreshToken в localStorage
                 }
 
                 // Перенаправляем пользователя на страницу профиля

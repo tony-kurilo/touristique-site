@@ -1,29 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+"use client"
+
+import React, { useState } from 'react';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import Image from "next/image";
 
 
 const AuthForm = () => {
-    const router = useRouter();
     const [isLoginForm, setIsLoginForm] = useState(true); // Управление состоянием
 
     const toggleForm = () => {
         setIsLoginForm(!isLoginForm); // Переключение между формами
     };
-
-    useEffect(() => {
-        // Check if token exists in localStorage
-        const token = localStorage.getItem('jwt'); // Check for JWT in localStorage
-
-        if (token) {
-            // If user is already logged in, redirect to profile page
-            router.push('/my-profile'); // Adjust this path as needed
-        }
-
-        }, [router]);
-
 
     return (
         <div className="relative min-h-screen bg-cover bg-center flex items-center justify-center"

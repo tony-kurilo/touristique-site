@@ -3,6 +3,7 @@ import pool from '../../app/database/db';
 import jwt from 'jsonwebtoken';
 
 const secretKey = 'your_secret_key'; // Секретный ключ для JWT
+const refreshSecretKey = 'your_refresh_secret_key'; // Секретный ключ для refreshToken
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
@@ -26,11 +27,20 @@ export default async function handler(req, res) {
 
             const userId = result.rows[0].id;
 
-            // Генерируем JWT токен
-            const token = jwt.sign({ id: userId, username, email }, secretKey, { expiresIn: '1h' });
+            // Генерация accessToken (краткосрочный токен)
+            const accessToken = jwt.sign({ id: userId, username, email }, secretKey, { expiresIn: '1h' });
 
-            // Отправляем токен клиенту
-            res.status(201).json({ message: 'Реєстрація успішна', token });
+            // Генерация refreshToken (долгосрочный токен)
+            const refreshToken = jwt.sign({ id: userId, username, email }, refreshSecretKey, { expiresIn: '7d' });
+
+            // Сохраняем refreshToken в базе данных
+            await pool.query(
+                'UPDATE users SET refresh_token = $1 WHERE id = $2',
+                [refreshToken, userId]
+            );
+
+            // Отправляем токены клиенту
+            res.status(201).json({ message: 'Реєстрація успішна', accessToken, refreshToken });
         } catch (error) {
             console.error('Ошибка регистрации:', error);
             res.status(500).json({ message: 'Серверна помилка' });

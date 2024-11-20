@@ -16,7 +16,7 @@ const LoginForm = () => {
         setLoading(true);
         setErrorMessage(''); // Сбрасываем ошибки перед запросом
         try {
-            const response = await fetch('http://localhost:3000/api/login', {
+            const response = await fetch('/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -26,15 +26,15 @@ const LoginForm = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                const token = data.token;  // Получаем токен из ответа
+                const { accessToken } = data; // Получаем accessToken из ответа
 
-                if (!token) {
-                    setErrorMessage('Ошибка: токен не получен');
+                if (!accessToken) {
+                    setErrorMessage('Ошибка: accessToken не получен');
                     return;
                 }
 
-                // Сохраняем токен в localStorage (или sessionStorage)
-                localStorage.setItem('jwt', token);
+                // Сохраняем accessToken в localStorage
+                localStorage.setItem('accessToken', accessToken);
 
                 router.push('/my-profile');  // Перенаправляем на личный кабинет
             } else {

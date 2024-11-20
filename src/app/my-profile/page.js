@@ -10,24 +10,56 @@ export default function Page() {
     const [error, setError] = useState(null);
     const router = useRouter();
 
+    // Функция для обновления токена
+    const refreshToken = async () => {
+        try {
+            const response = await fetch("/api/refresh", {
+                method: "POST",
+                credentials: "include", // Обязательно для отправки cookies
+            });
+
+            if (!response.ok) {
+                throw new Error("Не удалось обновить токен");
+            }
+
+            const data = await response.json();
+            localStorage.setItem("accessToken", data.accessToken); // Обновляем токен в localStorage
+        } catch (error) {
+            console.error(error);
+            setError("Не удалось обновить токен");
+            router.push("/auth");
+        }
+    };
+
     useEffect(() => {
         const fetchUserData = async () => {
-            const token = localStorage.getItem("jwt");
+            const accessToken = localStorage.getItem("accessToken");
 
-            if (!token) {
+            if (!accessToken) {
                 router.push("/auth"); // Перенаправление, если токен отсутствует
                 return;
             }
 
+            // Проверка валидности токена
+            const tokenResponse = await fetch("/api/validate-token", {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            if (!tokenResponse.ok) {
+                // Если токен недействителен, пробуем обновить
+                await refreshToken();
+                return;
+            }
+
+            // Получаем данные пользователя
             try {
-                const response = await fetch(
-                    "http://localhost:3000/api/fetchUserData",
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
+                const response = await fetch("/api/fetchUserData", {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
 
                 if (!response.ok) {
                     throw new Error("Ошибка при получении данных пользователя");

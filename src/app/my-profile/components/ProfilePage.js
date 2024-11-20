@@ -16,7 +16,7 @@ const ProfilePage = ({ userData }) => {
 
             if (response.ok) {
                 // Очищаем localStorage и перенаправляем на главную
-                localStorage.removeItem('jwt');
+                localStorage.removeItem('accessToken');
                 router.replace('/');
             } else {
                 console.error('Ошибка при выходе из системы');
@@ -69,25 +69,29 @@ const ProfilePage = ({ userData }) => {
             </div>
             <h1 className={"text-xl flex justify-center items-center mt-10"}>Добро пожаловать, {userData.username}!</h1>
 
-            <div className="mt-4">
-                <button
-                    onClick={() => setActiveTab("personal")}
-                    className={`px-4 py-2 mr-2 ${activeTab === "personal" ? "bg-blue-500 text-white" : "bg-gray-300"}`}
-                >
-                    Личные данные
-                </button>
-                <button
-                    onClick={() => setActiveTab("orders")}
-                    className={`px-4 py-2 mr-2 ${activeTab === "orders" ? "bg-blue-500 text-white" : "bg-gray-300"}`}
-                >
-                    Заказы
-                </button>
-                <button
-                    onClick={handleLogout}
-                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
-                >
-                    Выйти
-                </button>
+            <div className="mt-4 flex flex-row">
+                <div className="w-64 text-white p-4">
+                    <div className="flex flex-col space-y-4">
+                        <button
+                            onClick={() => setActiveTab("personal")}
+                            className={`px-4 py-2 ${activeTab === "personal" ? "text-red-600" : "text-black"} rounded`}
+                        >
+                            Личные данные
+                        </button>
+                        <button
+                            onClick={() => setActiveTab("orders")}
+                            className={`px-4 py-2 ${activeTab === "orders" ?  "text-red-600" : "text-black"} rounded`}
+                        >
+                            Заказы
+                        </button>
+                        <button
+                            onClick={handleLogout}
+                            className="px-4 py-2 bg-red-500 text-white rounded"
+                        >
+                            Выйти
+                        </button>
+                    </div>
+                </div>
 
                 <div className="mt-6">
                     {activeTab === "personal" && (

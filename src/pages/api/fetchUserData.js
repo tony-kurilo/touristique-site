@@ -1,18 +1,18 @@
 import jwt from "jsonwebtoken";
 import pool from "../../app/database/db";
 
-const secretKey = process.env.JWT_SECRET;
+const secretKey = 'your_secret_key';
 
 export default async function handler(req, res) {
     if (req.method === "GET") {
-        const token = req.headers.authorization?.split(" ")[1];
+        const accessToken = req.cookies.accessToken;
 
-        if (!token) {
+        if (!accessToken) {
             return res.status(401).json({ message: "Токен отсутствует" });
         }
 
         try {
-            const decoded = jwt.verify(token, secretKey);
+            const decoded = jwt.verify(accessToken, secretKey);
             const { email } = decoded;
 
             const result = await pool.query("SELECT email, username FROM users WHERE email = $1", [email]);

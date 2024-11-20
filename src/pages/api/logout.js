@@ -1,7 +1,9 @@
 export default function handler(req, res) {
     if (req.method === 'POST') {
-        // Устанавливаем cookie с истекшим сроком действия для удаления токена
-        res.setHeader('Set-Cookie', 'jwt=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0');
+        res.setHeader('Set-Cookie', [
+            `accessToken=; HttpOnly; Path=/; Max-Age=0; Secure`,
+            `refreshToken=; HttpOnly; Path=/; Max-Age=0; Secure`,
+        ]);
         return res.status(200).json({ message: 'Вы вышли из системы' });
     }
 
