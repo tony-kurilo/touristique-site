@@ -104,10 +104,15 @@ export default function Page() {
                            href={"/contact-us"}>Зв&apos;яжіться з нами</a>
                     </div>
                     <div className="flex items-center m-10 pr-10">
-                        <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist icon"} width={33}
-                               height={33}/>
-                        <Image className={"mr-2"} src={"/icons/account_white.png"} alt={"Account icon"} width={37}
-                               height={37}/>
+                        <a href="/basket">
+                            <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist icon"} width={"33"}
+                                   height={"33"}></Image>
+                        </a>
+                        <a href="/my-profile">
+                            <Image className={"mr-2"} src={"/icons/account_white.png"} alt={"Whishlist icon"}
+                                   width={"37"}
+                                   height={"37"}></Image>
+                        </a>
                     </div>
                 </nav>
             </div>

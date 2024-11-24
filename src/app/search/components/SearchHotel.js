@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from "next/image";
-
+import useCartStore from '../../basket/store/cartStore';
 
 export default function HotelSearch() {
     const router = useRouter();
@@ -27,7 +27,7 @@ export default function HotelSearch() {
     const [loading, setLoading] = useState(false);
 
     const [roomType, setRoomType] = useState('Стандарт');
-
+    const addItem = useCartStore((state) => state.addItem);
     const currencyRates = {
         UAH: 1,
         USD: 0.027,
@@ -197,6 +197,32 @@ export default function HotelSearch() {
         }, 1000);
     };
 
+    const handleAddToCart = (voucher) => {
+        const price = calculatePrice(voucher);
+        addItem({
+            id: voucher.id,
+            name: voucher.hotel_name,
+            address: voucher.hotel_country + " " + voucher.hotel_city + " " + voucher.hotel_address,
+            room : voucher.room_type,
+            price,
+            quantity: 1,
+            image: voucher.hotel_image,
+        });
+    };
+
+    const formatDateTime = (dbDateTime) => {
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+        return new Date(dbDateTime).toLocaleString('uk-UA', options);
+    };
+
+    const renderStars = (rating) => {
+        const stars = [];
+        for (let i = 0; i < rating; i++) {
+            stars.push(<span key={i}>⭐</span>);
+        }
+        return <div>{stars}</div>;
+    };
+
     return (
         <div className={"flex flex-col items-center mt-16"}>
             <div className={"flex items-center"}>
@@ -353,18 +379,26 @@ export default function HotelSearch() {
                                 )}
                             </div>
                             <div className={""}>
-                                <h2 className={"text-3xl mb-1 geologica-300"} onClick={(e) => e.stopPropagation()}>{voucher.hotel_name}</h2>
-                                <p className={"mb-10"} onClick={(e) => e.stopPropagation()}>{voucher.rating}</p>
-                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>{voucher.hotel_address}</p>
-                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>{voucher.date_from} </p>
-                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Ночей: </p>
-                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Тур закінчується: </p>
-                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Тип номеру: {voucher.room_type} </p>
-                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Тип харчування: </p>
+                                <h2 className={"text-3xl mb-1 geologica-300"}
+                                    onClick={(e) => e.stopPropagation()}>{voucher.hotel_name}</h2>
+                                <p className={"mb-10 text-xl geologica-300"} onClick={(e) => e.stopPropagation()}>
+                                    {renderStars(voucher.hotel_rating)}
+                                </p>
+                                <p className={"text-xl mb-2"}
+                                   onClick={(e) => e.stopPropagation()}>{voucher.hotel_country}, {voucher.hotel_city}, {voucher.hotel_address}</p>
+                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}> {`Тур дійсний від: ${formatDateTime(voucher.date_from)}`} </p>
+                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Тип
+                                    номеру: {voucher.room_type} </p>
+                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Макс.кількість
+                                    постояльців : {voucher.max_occupancy}</p>
+                                <p className={"text-xl mb-2"} onClick={(e) => e.stopPropagation()}>Кількість місць для дітей : {voucher.max_children}</p>
                             </div>
                             <div className={"ml-72 mr-2 relative"}>
                                 <p className={"text-xl mb-64"} onClick={(e) => e.stopPropagation()}>{nightsFrom || nightsTo ? `від ${calculatePrice(voucher)} ${currency}` : `від ${convertPrice(voucher.price_per_night, currency)} ${currency}`}</p>
-                                <button id={"submitButton"} onClick={(e) => e.stopPropagation()}>Додати</button>
+                                <button id={"submitButton"}  onClick={(e) => {
+                                    e.stopPropagation(); // Останавливаем всплытие события
+                                    handleAddToCart(voucher); // Добавляем товар в корзину
+                                }}>Додати</button>
                             </div>
                         </div>
                 ))}
