@@ -70,43 +70,48 @@ const ProfilePage = ({ userData }) => {
             <h1 className={"text-xl flex justify-center items-center mt-10"}>Добро пожаловать, {userData.username}!</h1>
 
             <div className="mt-4 flex flex-row">
-                <div className="w-64 text-white p-4">
-                    <div className="flex flex-col space-y-4">
-                        <button
-                            onClick={() => setActiveTab("personal")}
-                            className={`px-4 py-2 ${activeTab === "personal" ? "text-red-600" : "text-black"} rounded`}
-                        >
-                            Личные данные
-                        </button>
-                        <button
-                            onClick={() => setActiveTab("orders")}
-                            className={`px-4 py-2 ${activeTab === "orders" ?  "text-red-600" : "text-black"} rounded`}
-                        >
-                            Заказы
-                        </button>
-                        <button
-                            onClick={handleLogout}
-                            className="px-4 py-2 bg-red-500 text-white rounded"
-                        >
-                            Выйти
-                        </button>
+                <div className="w-64 text-white p-4 mr-32">
+                    <div className="flex flex-col space-y-4 text-center pl-14">
+                        <div>
+                            <button
+                                onClick={() => setActiveTab("personal")}
+                                className={`px-4 py-2 ${activeTab === "personal" ? "text-red-600 underline" : "text-black hover:text-red-600 transition duration-150"} rounded`}
+                            >
+                                Личные данные
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                                onClick={() => setActiveTab("orders")}
+                                className={`px-4 py-2 ${activeTab === "orders" ? "text-red-600 underline" : "text-black hover:text-red-600 transition duration-150"} rounded`}
+                            >
+                                Заказы
+                            </button>
+                        </div>
+                        <div className={"mb-96 pt-96 space-y-4"}>
+                            <button
+                                onClick={handleLogout}
+                                className="px-12 py-2 bg-red-500 text-white rounded hover:bg-red-700 transition duration-150"
+                            >
+                                Выйти
+                            </button>
+                        </div>
                     </div>
                 </div>
-
-                <div className="mt-6">
+                <div className="mt-6 ">
                     {activeTab === "personal" && (
-                        <div>
-                            <h2>Личные данные</h2>
+                        <div className={"center"}>
+                            <h2 className={""}>Личные данные</h2>
                             <p>Имя пользователя: {userData.username}</p>
                             <p>Email: {userData.email}</p>
-                            {/* Здесь можно добавить поля для редактирования данных */}
+
                         </div>
                     )}
                     {activeTab === "orders" && (
                         <div>
                             <h2>Ваши заказы</h2>
                             <p>Здесь будет информация о ваших заказах</p>
-                            {/* Здесь можно вывести список заказов */}
+
                         </div>
                     )}
                 </div>
