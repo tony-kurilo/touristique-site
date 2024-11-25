@@ -6,7 +6,7 @@ export default function Page() {
     return(
         <body>
             <div className="relative">
-                <Image src={"/images/search-background.png"} alt="Search" width={"1920"} height={"809"}
+                <Image src={"/images/search-background.png"} alt="Background" width={"1920"} height={"809"}
                        className={"object-cover"}/>
                 <div className="absolute inset-0 bg-black opacity-30"></div>
                 <div
@@ -18,7 +18,7 @@ export default function Page() {
             <nav className="flex items-center justify-between">
                 <div className="flex items-center m-10 px-6">
                     <a href="/">
-                        <Image className="" src={"/icons/promo1.png"} alt={"Earth icon"} width={"150"}
+                        <Image className="" src={"/icons/promo1.png"} alt={"Logo"} width={"150"}
                                height={"150"}></Image>
                     </a>
                 </div>
@@ -32,11 +32,11 @@ export default function Page() {
                 </div>
                 <div className="flex items-center m-10 pr-10">
                     <a href="/basket">
-                        <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist icon"} width={"33"}
+                        <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist"} width={"33"}
                                height={"33"}></Image>
                     </a>
                     <a href="/my-profile">
-                        <Image className={"mr-2"} src={"/icons/account_white.png"} alt={"Whishlist icon"} width={"37"}
+                        <Image className={"mr-2"} src={"/icons/account_white.png"} alt={"Profile"} width={"37"}
                                height={"37"}></Image>
                     </a>
                 </div>

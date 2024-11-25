@@ -42,7 +42,7 @@ export default function Home() {
         <header className="absolute top-0 left-0 w-full bg-opacity-10 z-10">
             <nav className="flex items-center justify-between">
                 <div className="flex items-center m-10 px-6">
-                    <Image className="" src={"/icons/promo1.png"} alt={"Earth icon"} width={"150"} height={"150"}></Image>
+                    <Image className="" src={"/icons/promo1.png"} alt={"Logo"} width={"150"} height={"150"}></Image>
                 </div>
                 <div className="flex items-center">
                     <a className={"m-4 pb-1 text-xl navbar-a-animation geologica-200"} href={"/search"}>Пункти призначення</a>
@@ -52,11 +52,11 @@ export default function Home() {
                 </div>
                 <div className="flex items-center m-10 pr-10">
                     <a href="/basket">
-                        <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist icon"} width={"33"}
+                        <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist"} width={"33"}
                                height={"33"}></Image>
                     </a>
                     <a href="/my-profile">
-                        <Image className={"mr-2"} src={"/icons/account_white.png"} alt={"Whishlist icon"} width={"37"}
+                        <Image className={"mr-2"} src={"/icons/account_white.png"} alt={"Profile"} width={"37"}
                                height={"37"}></Image>
                     </a>
                 </div>
@@ -111,7 +111,7 @@ export default function Home() {
                 <div className={"grid-container px-40 "}>
                     <div
                         className={"news-item"}> {/* Задайте фиксированную ширину */}
-                        <Image src={"/images/europe30.png"} width={"507"} height={"338"}/>
+                        <Image src={"/images/europe30.png"} alt={"latest-news-1"} width={"507"} height={"338"}/>
                         <div className={"flex justify-between geologica-300"}>
                             <p className={"mt-4"}>Акція</p>
                             <p className={"mt-4"}>29.10.2024</p>
@@ -123,7 +123,7 @@ export default function Home() {
                     </div>
                     <div
                         className={"news-item"}> {/* Задайте фиксированную ширину */}
-                        <Image src={"/images/maya.png"} width={"507"} height={"338"}/>
+                        <Image src={"/images/maya.png"} alt={"latest-news-2"} width={"507"} height={"338"}/>
                         <div className={"flex justify-between geologica-300"}>
                             <p className={"mt-4"}>Стаття</p>
                             <p className={"mt-4"}>25.10.2024</p>
@@ -135,7 +135,7 @@ export default function Home() {
                     </div>
                     <div
                         className={"news-item"}> {/* Задайте фиксированную ширину */}
-                        <Image src={"/images/hiking.png"} width={"507"} height={"338"}/>
+                        <Image src={"/images/hiking.png"} alt={"latest-news-3"} width={"507"} height={"338"}/>
                         <div className={"flex justify-between geologica-300"}>
                             <p className={"mt-4"}>Стаття</p>
                             <p className={"mt-4"}>23.10.2024</p>

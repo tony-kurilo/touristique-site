@@ -42,7 +42,7 @@ const ProfilePage = ({ userData }) => {
                 <nav className="relative flex items-center justify-between z-10">
                     <div className="flex items-center m-10 px-6">
                         <a href="/">
-                            <Image className="" src={"/icons/promo1.png"} alt={"Earth icon"} width={"150"}
+                            <Image className="" src={"/icons/promo1.png"} alt={"Logo"} width={"150"}
                                    height={"150"}></Image>
                         </a>
                     </div>
@@ -57,10 +57,10 @@ const ProfilePage = ({ userData }) => {
                     </div>
                     <div className="flex items-center m-10 pr-10">
                         <a href="/basket">
-                            <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist icon"} width={"33"}
+                            <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist"} width={"33"}
                                    height={"33"}></Image>
                         </a>
-                        <Image className={"mr-2"} src={"/icons/account_white.png"} alt={"Whishlist icon"}
+                        <Image className={"mr-2"} src={"/icons/account_white.png"} alt={"Profile"}
                                    width={"37"}
                                    height={"37"}>
                         </Image>

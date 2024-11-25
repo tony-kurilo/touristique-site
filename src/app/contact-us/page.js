@@ -83,15 +83,12 @@ export default function Page() {
     return (
         <div className="relative min-h-screen bg-cover bg-center flex items-center justify-center"
              style={{backgroundImage: "url('/images/contact-us.png')"}}>
-            {/* Затемняющий слой */}
             <div className="absolute inset-0 bg-black opacity-50 z-0"></div>
-
-            {/* Контент поверх фона и затемнения */}
             <div className="absolute top-0 left-0 right-0">
                 <nav className="relative flex items-center justify-between z-10">
                     <div className="flex items-center m-10 px-6">
                         <a href="/">
-                            <Image className="" src={"/icons/promo1.png"} alt={"Earth icon"} width={"150"} height={"150"}></Image>
+                            <Image className="" src={"/icons/promo1.png"} alt={"Logo"} width={"150"} height={"150"}></Image>
                         </a>
                     </div>
                     <div className="flex items-center">
@@ -105,11 +102,11 @@ export default function Page() {
                     </div>
                     <div className="flex items-center m-10 pr-10">
                         <a href="/basket">
-                            <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist icon"} width={"33"}
+                            <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist"} width={"33"}
                                    height={"33"}></Image>
                         </a>
                         <a href="/my-profile">
-                            <Image className={"mr-2"} src={"/icons/account_white.png"} alt={"Whishlist icon"}
+                            <Image className={"mr-2"} src={"/icons/account_white.png"} alt={"Profile"}
                                    width={"37"}
                                    height={"37"}></Image>
                         </a>

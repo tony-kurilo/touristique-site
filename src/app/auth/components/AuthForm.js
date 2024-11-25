@@ -24,7 +24,7 @@ const AuthForm = () => {
                 <nav className="relative flex items-center justify-between z-10">
                     <div className="flex items-center m-10 px-6">
                         <a href="/">
-                            <Image className="" src={"/icons/promo1.png"} alt={"Earth icon"} width={"150"} height={"150"}></Image>
+                            <Image className="" src={"/icons/promo1.png"} alt={"Logo"} width={"150"} height={"150"}></Image>
                         </a>
                     </div>
                     <div className="flex items-center">
@@ -37,9 +37,9 @@ const AuthForm = () => {
                            href={"/contact-us"}>Зв&apos;яжіться з нами</a>
                     </div>
                     <div className="flex items-center m-10 pr-10">
-                        <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist icon"} width={33}
+                        <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist"} width={33}
                                height={33}/>
-                        <Image className={"mr-2"} src={"/icons/account_white.png"} alt={"Account icon"} width={37}
+                        <Image className={"mr-2"} src={"/icons/account_white.png"} alt={"Profile"} width={37}
                                height={37}/>
                     </div>
                 </nav>

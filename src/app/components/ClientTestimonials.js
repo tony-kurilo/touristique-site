@@ -90,7 +90,7 @@ export default function ClientTestimonials() {
                 Відгуки Клієнтів
             </article>
             <div className="relative">
-                <Image src={"/images/mountains.png"} width={"1922"} height={"582"} className={"object-cover"} />
+                <Image src={"/images/mountains.png"} alt={"reviews Image Background"} width={"1922"} height={"582"} className={"object-cover"} />
                 <div className="absolute inset-0 bg-black opacity-30"></div>
             </div>
             <blockquote

@@ -375,7 +375,7 @@ export default function HotelSearch() {
                              onClick={() => handleRedirect(voucher)}>
                             <div className={"mr-10"}>
                                 {voucher.hotel_image && (
-                                    <Image src={voucher.hotel_image} width={510} height={333} className={"border rounded cursor-pointer"} />
+                                    <Image src={voucher.hotel_image} alt={"Hotel"} width={510} height={333} className={"border rounded cursor-pointer"} />
                                 )}
                             </div>
                             <div className={""}>

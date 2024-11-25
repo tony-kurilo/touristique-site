@@ -25,20 +25,20 @@ export default function Footer() {
                     <div className={"flex flex-col items-center justify-center "}>
                         <p>Відгуки про нас</p>
                         <a href={"https://uk.trustpilot.com/"} className={"trust-pilot"}>
-                            <Image src={"/images/trustpilot.png"} width={"120"} height={"60"}></Image>
+                            <Image src={"/images/trustpilot.png"} alt={"trustpilot logo"} width={"120"} height={"60"}></Image>
                         </a>
                     </div>
                     <div className={"flex flex-col items-center justify-center"}>
                         <p className={"mt-10"}>Наші соцмережі!</p>
                         <div className={"flex"}>
                             <a href={"https://www.instagram.com/"}>
-                                <Image src={"/icons/insta.png"} width={"40"} height={"40"}></Image>
+                                <Image src={"/icons/insta.png"} lt={"instagram logo"} width={"40"} height={"40"}></Image>
                             </a>
                             <a href={"https://www.facebook.com/"} className={"mx-4"}>
-                                <Image src={"/icons/facebook.png"} width={"40"} height={"40"}></Image>
+                                <Image src={"/icons/facebook.png"} lt={"facebook logo"} width={"40"} height={"40"}></Image>
                             </a>
                             <a href={"https://ua.linkedin.com/"}>
-                                <Image src={"/icons/linkedin.webp"} width={"40"} height={"40"}></Image>
+                                <Image src={"/icons/linkedin.webp"} lt={"linkedin logo"} width={"40"} height={"40"}></Image>
                             </a>
                         </div>
                     </div>

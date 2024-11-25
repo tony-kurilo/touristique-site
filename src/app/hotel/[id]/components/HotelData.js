@@ -121,7 +121,7 @@ export default function HotelData ({ data  }) {
             <nav className="relative flex items-center justify-between z-10">
                 <div className="flex items-center m-10 px-6">
                     <a href="/">
-                        <Image src="/icons/earth.png" alt="Earth icon" width={66} height={66}/>
+                        <Image src="/icons/earth.png" alt="Logo" width={66} height={66}/>
                     </a>
                 </div>
                 <div className="flex items-center">
@@ -131,9 +131,9 @@ export default function HotelData ({ data  }) {
                     <a className={"m-4 pb-1 text-xl navbar-a-animation"} href={"/contact-us"}>Зв`&apos;яжіться з нами</a>
                 </div>
                 <div className="flex items-center m-10 pr-10">
-                    <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist icon"} width={33}
+                    <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist"} width={33}
                            height={33}/>
-                    <Image className={"mr-2"} src={"/icons/account_white.png"} alt={"Account icon"} width={37}
+                    <Image className={"mr-2"} src={"/icons/account_white.png"} alt={"Profile"} width={37}
                            height={37}/>
                 </div>
             </nav>
@@ -227,6 +227,7 @@ export default function HotelData ({ data  }) {
                     <div className={"relative flex justify-center items-center mt-8"}>
                         <div className="relative group max-w-4xl mr-7">
                             <Image src={selectedRoomType.images[roomCurrentImage]} width={"504"} height={"338"}
+                                   alt={"Room"}
                                    className="max-h-[300px] object-cover "
                                    onClick={openModal}></Image>
                             <button
@@ -274,6 +275,7 @@ export default function HotelData ({ data  }) {
                                     </button>
                                     <Image
                                         src={selectedRoomType.images[roomCurrentImage]}
+                                        alt={"Bigger Room Image"}
                                         width={600} // Задайте желаемую ширину для большой версии
                                         height={350} // Задайте желаемую высоту для большой версии
                                         className="object-cover" // Используйте object-cover, чтобы сохранить пропорции

@@ -46,7 +46,7 @@ export default function Page() {
                 <nav className="relative flex items-center justify-between z-10">
                     <div className="flex items-center m-10 px-6">
                         <a href="/">
-                            <Image className="" src={"/icons/promo1.png"} alt={"Earth icon"} width={"150"} height={"150"}></Image>
+                            <Image className="" src={"/icons/promo1.png"} alt={"Logo"} width={"150"} height={"150"}></Image>
                         </a>
                     </div>
                     <div className="flex items-center">
@@ -59,9 +59,9 @@ export default function Page() {
                            href={"/contact-us"}>Зв&apos;яжіться з нами</a>
                     </div>
                     <div className="flex items-center m-10 pr-10">
-                        <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist icon"} width={33}
+                        <Image className={"mr-2"} src={"/icons/heart_white.png"} alt={"Whishlist"} width={33}
                                height={33}/>
-                        <Image className={"mr-2"} src={"/icons/account_white.png"} alt={"Account icon"} width={37}
+                        <Image className={"mr-2"} src={"/icons/account_white.png"} alt={"Profile"} width={37}
                                height={37}/>
                     </div>
                 </nav>
@@ -76,7 +76,7 @@ export default function Page() {
                     </p>
                 </div>
                 <div className="relative flex flex-col items-center justify-between mt-20">
-                    <Image src={"/images/about-us.jpg"} width={"1500"} height={"300"}></Image>
+                    <Image src={"/images/about-us.jpg"} alt={"Our Photo"} width={"1500"} height={"300"}></Image>
                 </div>
                 <div className="mt-10 flex flex-col items-center justify-center">
                     <p className={"text-2xl font-extralight mt-7 max-w-5xl text-center geologica-200"}>
@@ -89,17 +89,17 @@ export default function Page() {
                     <p className={"relative justify-self-center text-3xl pt-8 mb-12 geologica-200"}>Те, про що ми дбаємо найбільше</p>
                     <div className={"flex items-center justify-between mx-96 pt-3 "}>
                         <div className="w-[188.06px] h-[152px] flex flex-col items-center justify-center">
-                            <Image src={"/icons/promo-earth.png"} width={"128"} height={"128"}
+                            <Image src={"/icons/promo-earth.png"} width={"128"} height={"128"} alt={"destinations image"}
                                    className={"justify-self-center"}></Image>
                             <p className={"text-center text-lg mt-2 font-bold"}>Широкий вибір напрямків</p>
                         </div>
                         <div className="w-[188.06px] h-[152px] flex flex-col items-center justify-center">
-                            <Image src={"/icons/handshake.png"} width={"128"} height={"128"}
+                            <Image src={"/icons/handshake.png"} width={"128"} height={"128"} alt={"best service image"}
                                    className={"justify-self-center"}></Image>
                             <p className={"text-center text-lg mt-2 font-bold"}>Надійність та якість</p>
                         </div>
                         <div className="w-[188.06px] h-[152px] flex flex-col items-center justify-center">
-                            <Image src={"/icons/service-agent.png"} width={"128"} height={"128"}
+                            <Image src={"/icons/service-agent.png"} width={"128"} height={"128"} alt={"support image"}
                                    className={"justify-self-center"}></Image>
                             <p className={"text-center text-lg mt-2 font-bold"}>Підтримка 24/7</p>
                         </div>
@@ -120,9 +120,9 @@ export default function Page() {
                         який точно знає, що потрібно для ідеальної відпустки.
                     </p>
                     <div className={"image-container flex-wrap mb-5"}>
-                        <Image src={"/images/about-us/selfie1.jpg"} width={"450"} height={"800"} className="image"></Image>
-                        <Image src={"/images/about-us/selfie2.jpg"} width={"400"} height={"600"} className="image"></Image>
-                        <Image src={"/images/about-us/selfie3.jpg"} width={"425"} height={"750"} className="image"></Image>
+                        <Image src={"/images/about-us/selfie1.jpg"} alt={"our photo #1"} width={"450"} height={"800"} className="image"></Image>
+                        <Image src={"/images/about-us/selfie2.jpg"} alt={"our photo #2"} width={"400"} height={"600"} className="image"></Image>
+                        <Image src={"/images/about-us/selfie3.jpg"} alt={"our photo #3"} width={"425"} height={"750"} className="image"></Image>
                     </div>
                 </div>
                 <div className={"mb-10 pt-10 Global1Color"}>
@@ -138,12 +138,12 @@ export default function Page() {
                                 для покращення наших спільнот.</p>
                         </div>
                         <div className={"z-0"}>
-                            <Image src={"/images/about-us/GroupAbout1.png.webp"} width={"700"} height={"400"}
+                            <Image src={"/images/about-us/GroupAbout1.png.webp"} alt={"our photo"} width={"700"} height={"400"}
                                    className={"relative left-1/4 top-32 z-10"}></Image>
                         </div>
                     </div>
                     <div className={"flex items-center justify-center"}>
-                        <Image src={"/images/about-us/global-pledge.png"} width={"1000"} height={"400"}
+                        <Image src={"/images/about-us/global-pledge.png"} width={"1000"} height={"400"} alt={"global pledge logo"}
                                className={"relative bottom-48 z-10 horisontal-image"}></Image>
                     </div>
                 </div>
